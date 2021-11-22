@@ -30,6 +30,8 @@ public class DatabaseCon : MonoBehaviour
         CreateGoal("Test", 0);
         CreateTask(2, "test", 200, 0);
         CreateUser("avatar1", "audio", "testuser");
+
+        ReadAllTasks();
     }
 
     //Creates the Database and all the Tables
@@ -209,14 +211,13 @@ public class DatabaseCon : MonoBehaviour
         }
 
         //Debug code that checks if the right tasks were selected
-        /**
+
         for (int i = 0; i < arrlist.Count; i++)
         {
             Debug.Log("Im Here2!");
             Task currTask = (Task)arrlist[i];
             Debug.Log("name: " + currTask.taskname + " id: " + currTask.id);
         }
-        */
         return arrlist;
     }
 

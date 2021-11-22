@@ -11,7 +11,7 @@ public class Goal : MonoBehaviour
     private int _goalNumber;
     public int id;
     public int status;
-    public string name;
+    public string gname;
 
     public void SetGoalName(string Pname)
     {
@@ -22,7 +22,7 @@ public class Goal : MonoBehaviour
     {
         id = i;
         status = s;
-        name = n;
+        gname = n;
     }
 
 }
