@@ -17,7 +17,6 @@ public class CreateName : MonoBehaviour
     {
         string name = _inputField.text;
         Debug.Log(name);
-        _inputField.text = "";
     }
     // Update is called once per frame
     void Update()
