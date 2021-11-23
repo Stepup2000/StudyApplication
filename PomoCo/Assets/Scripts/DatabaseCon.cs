@@ -533,7 +533,7 @@ public class DatabaseCon : MonoBehaviour
             //access the database using a command
             using (var command = connection.CreateCommand())
             {
-                //This Command deletes a Task
+                //This Command deletes all Tasks for the goal
                 command.CommandText = "DELETE FROM tasks WHERE goal_id = " + goalID + ";";
             }
             connection.Close();
@@ -569,7 +569,7 @@ public class DatabaseCon : MonoBehaviour
             //access the database using a command
             using (var command = connection.CreateCommand())
             {
-                //This Command deletes the goal
+                //This Command updates the user
                 command.CommandText = "UPDATE users SET avatar = '" + avatar + "' WHERE id = 1;";
             }
             connection.Close();
@@ -586,8 +586,93 @@ public class DatabaseCon : MonoBehaviour
             //access the database using a command
             using (var command = connection.CreateCommand())
             {
-                //This Command deletes the goal
+                //This Command updates the user
                 command.CommandText = "UPDATE users SET name = '" + name + "' WHERE id = 1;";
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the Name of a specific goal identified by its ID
+    public void UpdateGoalName(string name, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the goal
+                command.CommandText = "UPDATE goals SET name = '" + name + "' WHERE id = " + id + ";";
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the priority of a specific goal identified by its ID
+    public void UpdateGoalPriority(int prio, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the goal
+                command.CommandText = "UPDATE goals SET gpriority = '" + prio + "' WHERE id = " + id + ";";
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the name of a specific task identified by its ID
+    public void UpdateTaskName(string name, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the task
+                command.CommandText = "UPDATE goals SET name = '" + name + "' WHERE id = " + id + ";";
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the priority of a specific task identified by its ID
+    public void UpdateTaskPriority(int priority, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the task
+                command.CommandText = "UPDATE goals SET tpriority = '" + priority + "' WHERE id = " + id + ";";
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the time of a specific task identified by its ID
+    public void UpdateTaskTime(int time, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the task
+                command.CommandText = "UPDATE goals SET time = '" + time + "' WHERE id = " + id + ";";
             }
             connection.Close();
         }
