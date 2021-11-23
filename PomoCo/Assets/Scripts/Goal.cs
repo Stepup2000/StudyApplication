@@ -12,17 +12,19 @@ public class Goal : MonoBehaviour
     public int id;
     public int status;
     public string gname;
+    public int priority;
 
     public void SetGoalName(string Pname)
     {
         _nameText.text = Pname;
         _placeHolder.text = Pname;
     }
-    public Goal(int i, int s, string n)
+    public Goal(int i, int s, string n, int p)
     {
         id = i;
         status = s;
         gname = n;
+        priority = p;
     }
 
 }

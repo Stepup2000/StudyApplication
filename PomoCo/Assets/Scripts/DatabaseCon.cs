@@ -27,9 +27,13 @@ public class DatabaseCon : MonoBehaviour
         //create the Database
         CreateDB();
 
-        CreateGoal("Test", 0);
-        CreateTask(2, "test", 200, 0);
+        CreateGoal("Test", 0, 1);
+        CreateTask(1, "test", 200, 0, 1);
         CreateUser("avatar1", "audio", "testuser");
+
+        CreateGoal("Test2", 0, 1);
+        CreateTask(2, "test2", 200, 0, 1);
+        CreateUser("avatar2", "visual", "testuser2");
 
         ReadAllTasks();
     }
@@ -48,11 +52,11 @@ public class DatabaseCon : MonoBehaviour
             {
 
                 //Goals Table
-                command.CommandText = "CREATE TABLE IF NOT EXISTS goals (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, status NUMBER(1));";
+                command.CommandText = "CREATE TABLE IF NOT EXISTS goals (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, status NUMBER(1), gpriority INTEGER);";
                 command.ExecuteNonQuery();
 
                 //Task Table
-                command.CommandText = "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, time INTEGER, is_completed NUMBER(1), goal_id INTEGER, FOREIGN KEY (goal_id) REFERENCES goals (id));";
+                command.CommandText = "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, time INTEGER, tpriority INTEGER, is_completed NUMBER(1), goal_id INTEGER, FOREIGN KEY (goal_id) REFERENCES goals (id));";
                 command.ExecuteNonQuery();
 
                 //User Table
@@ -64,7 +68,7 @@ public class DatabaseCon : MonoBehaviour
     }
 
     //Creates a new Goal. Goals need a name! 
-    public bool CreateGoal(string name, int status)
+    public bool CreateGoal(string name, int status, int priority)
     {
 
         //checks if a name was entered
@@ -79,7 +83,7 @@ public class DatabaseCon : MonoBehaviour
                 {
 
                     //creates a new goal with the according name
-                    command.CommandText = "INSERT INTO goals (name, status) VALUES ('" + name + "','" + status + "');";
+                    command.CommandText = "INSERT INTO goals (name, status, gpriority) VALUES ('" + name + "','" + status + "','" + priority + "');";
                     command.ExecuteNonQuery();
 
                     //Debug.Log(name);
@@ -96,7 +100,7 @@ public class DatabaseCon : MonoBehaviour
 
     //Creates a new Task. A task is related to a goal and needs the goal_id. Additionally it 
     //needs a name, time in minutes and a status. The status needs to be a number between 1 and 0
-    public bool CreateTask(int goalid, string name, int time, int completed)
+    public bool CreateTask(int goalid, string name, int time, int completed, int priority)
     {
         //checks if a name was entered, if a valid time was entered and if the task is incomplete
         if (name != "" && time != 0 && completed == 0)
@@ -110,7 +114,7 @@ public class DatabaseCon : MonoBehaviour
                 {
 
                     //creates a new goal with the according name
-                    command.CommandText = "INSERT INTO tasks (name, time, is_completed, goal_id) VALUES ('" + name + "','" + time + "','" + completed + "','" + goalid + "');";
+                    command.CommandText = "INSERT INTO tasks (name, time, is_completed, goal_id, tpriority) VALUES ('" + name + "','" + time + "','" + completed + "','" + goalid + "','" + priority + "');";
                     //Debug.Log(goalid);
                     command.ExecuteNonQuery();
 
@@ -202,7 +206,7 @@ public class DatabaseCon : MonoBehaviour
                 {
                     while (reader.Read())
                     {
-                        Task currentTask = new Task(reader.GetInt32(4), (int)reader.GetInt32(3), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0));
+                        Task currentTask = new Task(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -211,7 +215,6 @@ public class DatabaseCon : MonoBehaviour
         }
 
         //Debug code that checks if the right tasks were selected
-
         for (int i = 0; i < arrlist.Count; i++)
         {
             Debug.Log("Im Here2!");
@@ -241,7 +244,7 @@ public class DatabaseCon : MonoBehaviour
                 {
                     while (reader.Read())
                     {
-                        Task currentTask = new Task(reader.GetInt32(4), (int)reader.GetInt32(3), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0));
+                        Task currentTask = new Task(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -280,7 +283,7 @@ public class DatabaseCon : MonoBehaviour
                 {
                     while (reader.Read())
                     {
-                        Task currentTask = new Task(reader.GetInt32(4), (int)reader.GetInt32(3), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0));
+                        Task currentTask = new Task(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -320,7 +323,7 @@ public class DatabaseCon : MonoBehaviour
                 {
                     while (reader.Read())
                     {
-                        Task currentTask = new Task(reader.GetInt32(4), (int)reader.GetInt32(3), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0));
+                        Task currentTask = new Task(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -360,7 +363,7 @@ public class DatabaseCon : MonoBehaviour
                 {
                     while (reader.Read())
                     {
-                        Goal currentGoal = new Goal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1));
+                        Goal currentGoal = new Goal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1), reader.GetInt32(3));
                         arrlist.Add(currentGoal);
                     }
                 }
@@ -400,7 +403,7 @@ public class DatabaseCon : MonoBehaviour
                 {
                     while (reader.Read())
                     {
-                        Goal currentGoal = new Goal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1));
+                        Goal currentGoal = new Goal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1), reader.GetInt32(3));
                         arrlist.Add(currentGoal);
                     }
                 }
@@ -440,7 +443,7 @@ public class DatabaseCon : MonoBehaviour
                 {
                     while (reader.Read())
                     {
-                        Goal currentGoal = new Goal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1));
+                        Goal currentGoal = new Goal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1), reader.GetInt32(3));
                         arrlist.Add(currentGoal);
                     }
                 }
@@ -498,5 +501,95 @@ public class DatabaseCon : MonoBehaviour
         }
         */
         return arrlist;
+    }
+
+
+    //Deleting a certain task by its ID. If the task exists it gets deleted from the database
+    //When deleting a task there is nothing to worry about so no further logic is required. 
+    public void DeleteTask(int taskID)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command deletes a Task
+                command.CommandText = "DELETE FROM tasks WHERE id = " + taskID + ";";
+            }
+            connection.Close();
+        }
+    }
+
+    //Deleting a certain tasks by its goal ID. If the tasks exist they get deleted from the database
+    //When deleting a task there is nothing to worry about so no further logic is required. 
+    public void DeleteTaskByGoal(int goalID)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command deletes a Task
+                command.CommandText = "DELETE FROM tasks WHERE goal_id = " + goalID + ";";
+            }
+            connection.Close();
+        }
+    }
+
+    //Deletes a specific goal. All the tasks connected to that goal get deleted as well!
+    public void DeleteGoal(int goalID)
+    {
+        //first the task deletion is called
+        DeleteTaskByGoal(goalID);
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command deletes the goal
+                command.CommandText = "DELETE FROM goals WHERE id= " + goalID + ";";
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the Avatar of the user if they want to choose a new one. Requires the Avatar String. This always selects the first user!
+    public void UpdateUserAvatar(string avatar)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command deletes the goal
+                command.CommandText = "UPDATE users SET avatar = '" + avatar + "' WHERE id = 1;";
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the Name of the user if they want to choose a new one. Requires the Name String. This always selects the first user!
+    public void UpdateUserName(string name)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command deletes the goal
+                command.CommandText = "UPDATE users SET name = '" + name + "' WHERE id = 1;";
+            }
+            connection.Close();
+        }
     }
 }

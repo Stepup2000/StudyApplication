@@ -8,15 +8,16 @@ public class Task
     public int completed;
     public string taskname;
     public int time;
-
     public int id;
+    public int priority;
 
-    public Task(int gid, int cmpld, string n, int t, int i)
+    public Task(int gid, int cmpld, string n, int t, int i, int p)
     {
         goalid = gid;
         completed = cmpld;
         taskname = n;
         time = t;
         id = i;
+        priority = p;
     }
 }
