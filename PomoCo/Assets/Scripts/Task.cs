@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Task
+public class Task : MonoBehaviour
 {
     public int goalid;
     public int completed;
@@ -10,6 +10,7 @@ public class Task
     public int time;
     public int id;
     public int priority;
+    private int taskNumber;
 
     public Task(int gid, int cmpld, string n, int t, int i, int p)
     {
@@ -19,5 +20,15 @@ public class Task
         time = t;
         id = i;
         priority = p;
+    }
+
+    public void SetTaskName(string pName)
+    {
+        taskname = pName;
+    }
+
+    public void SetTaskNumber(int pNumber)
+    {
+        taskNumber = pNumber;
     }
 }

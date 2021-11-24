@@ -9,15 +9,16 @@ public class MainController : MonoBehaviour
 {
     public Character currentCharacterPrefab;
     [SerializeField] private Goal _goalPrefab;
+    //[SerializeField] private Task _taskPrefab;
     private Character _characterInstance;
     private int goalAmount = -1;
+    private int taskAmount = -1;
     private string[] nameArray = new string[3];
     private GameObject _plusButton;
 
     // Start is called before the first frame update
     private void Start()
     {
-        _plusButton = GameObject.Find("AddGoalButton");
     }
 
     public void SwitchCharacter(Character pCharacter)
@@ -31,13 +32,30 @@ public class MainController : MonoBehaviour
     {
         if (goalAmount < nameArray.Length - 1)
         {
-            goalAmount += 1;
+            taskAmount += 1;
             Vector3 position = new Vector3(0, 780 - (goalAmount * 550), 0);
             var goal = Instantiate<Goal>(_goalPrefab, position, Quaternion.identity);
             var goalParent = GameObject.Find("Goals");
             goal.transform.SetParent(goalParent.transform, false);
             goal.SetGoalName("" + nameArray[goalAmount]);
             goal.SetGoalNumber(goalAmount);
+            _plusButton = GameObject.Find("AddGoalButton");
+            _plusButton.transform.position += new Vector3(0, -280, 0);
+        }
+    }
+
+    public void CreateTask()
+    {
+        if (goalAmount < 3)
+        {
+            goalAmount += 1;
+            Vector3 position = new Vector3(0, 780 - (taskAmount * 550), 0);
+            //var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
+            var taskParent = GameObject.Find("Tasks");
+            //task.transform.SetParent(taskParent.transform, false);
+            //task.SetTaskName("" + nameArray[taskAmount]);
+            //task.SetTaskNumber(taskAmount);
+            _plusButton = GameObject.Find("AddGoalButton");
             _plusButton.transform.position += new Vector3(0, -280, 0);
         }
     }
