@@ -27,15 +27,15 @@ public class DatabaseCon : MonoBehaviour
         //create the Database
         CreateDB();
 
-        CreateGoal("Test", 0, 1);
-        CreateTask(1, "test", 200, 0, 1);
-        CreateUser("avatar1", "audio", "testuser");
+        //CreateGoal("Test", 0, 1);
+        //CreateTask(1, "test", 200, 0, 1);
+        //CreateUser("avatar1", "audio", "testuser");
 
-        CreateGoal("Test2", 0, 1);
-        CreateTask(2, "test2", 200, 0, 1);
-        CreateUser("avatar2", "visual", "testuser2");
+        //CreateGoal("Test2", 0, 1);
+        //CreateTask(2, "test2", 200, 0, 1);
+        //CreateUser("avatar2", "visual", "testuser2");
 
-        ReadAllTasks();
+        //ReadAllTasks();
     }
 
     //Creates the Database and all the Tables
