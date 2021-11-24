@@ -14,11 +14,6 @@ public class Goal : MonoBehaviour
     public string gname;
     public int priority;
 
-    public void SetGoalName(string Pname)
-    {
-        _nameText.text = Pname;
-        _placeHolder.text = Pname;
-    }
     public Goal(int i, int s, string n, int p)
     {
         id = i;
@@ -27,4 +22,20 @@ public class Goal : MonoBehaviour
         priority = p;
     }
 
+    public void SetGoalName(string Pname)
+    {
+        _nameText.text = Pname;
+        _placeHolder.text = Pname;
+    }
+
+    public void SetGoalNumber(int pNumber)
+    {
+        _goalNumber = pNumber;
+    }
+
+    public void ChangeGoalName()
+    {
+        var controller = GameObject.Find("MainController").GetComponent<MainController>();
+        controller.ChangeGoalName(_goalNumber, _nameText.text);
+    }
 }
