@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Task
+public class Task : MonoBehaviour
 {
     public int goalid;
     public int completed;
+
     public string taskname;
+
     public int time;
     public int id;
     public int priority;
@@ -19,5 +21,15 @@ public class Task
         time = t;
         id = i;
         priority = p;
+    }
+
+    public void SetTaskName(string pName)
+    {
+        taskname = pName;
+    }
+
+    public void SetTaskSetTaskID(int pNumber)
+    {
+        goalid = pNumber;
     }
 }
