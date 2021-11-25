@@ -123,64 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &281477116
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3652878305571144144, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_Name
-      value: MainController
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652878305571144146, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652878305571144146, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 205
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652878305571144146, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 320
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652878305571144146, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652878305571144146, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652878305571144146, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652878305571144146, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652878305571144146, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652878305571144146, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652878305571144146, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3652878305571144146, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3652878305571144147, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
-  m_SourcePrefab: {fileID: 100100000, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
 --- !u!1 &338376831
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,7 +860,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1151543186}
         m_TargetAssemblyTypeName: CreateName, Assembly-CSharp
-        m_MethodName: InputName
+        m_MethodName: ClickEnabler
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1014,6 +956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8616fca780dd4a448daee88c65950e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _myButton: {fileID: 1779666263}
 --- !u!1 &1189136915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1454,11 +1397,23 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 1779666260}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1151543186}
+        m_TargetAssemblyTypeName: CreateName, Assembly-CSharp
+        m_MethodName: InputName
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 1779666262}
         m_TargetAssemblyTypeName: GoToRoom, Assembly-CSharp
         m_MethodName: LoadScene
