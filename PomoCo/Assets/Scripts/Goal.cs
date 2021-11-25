@@ -26,6 +26,6 @@ public class Goal : MonoBehaviour
     public void ChangeGoalName()
     {
         var controller = GameObject.Find("MainController").GetComponent<MainController>();
-        controller.ChangeGoalName(ID, _nameText.text);
+        //controller.ChangeGoalName(ID, _nameText.text);
     }
 }

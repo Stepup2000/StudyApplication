@@ -18,7 +18,7 @@ public class DatabaseCon
     string SQLQuery;
 
     // Start is called before the first frame update
-    void Start()
+    public void StartDB()
     {
         string filepath = Application.dataPath + DATABASE_NAME;
         Debug.Log($"filepath={filepath}");

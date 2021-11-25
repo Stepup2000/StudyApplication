@@ -11,7 +11,6 @@ public class MainController : MonoBehaviour
     [SerializeField] private Goal _goalPrefab;
     [SerializeField] private Task _taskPrefab;
     private Character _characterInstance;
-    private string[] nameArray = new string[3];
     private ArrayList _goalList = new ArrayList();
     private ArrayList _taskList = new ArrayList();
 
@@ -23,9 +22,31 @@ public class MainController : MonoBehaviour
     private string userAvatar = "default";
     private string userLearningType = "default";
 
+    private void Start()
+    {
+        database.StartDB();
+
+        if (!CheckForUser()) SceneManager.LoadScene("WelcomeScreen", LoadSceneMode.Single);
+        else
+        {
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            GetDatabaseInformation();
+        }
+    }
+
     public void SetUserName(string name)
     {
         userName = name;
+    }
+
+    public string GetUserName()
+    {
+        return userName;
+    }
+
+    public string GetUserLearningType()
+    {
+        return userLearningType;
     }
 
     public void SetUserLearningType(string lt)
@@ -36,6 +57,11 @@ public class MainController : MonoBehaviour
     public void SetUserAvatar(string avatar)
     {
         userAvatar = avatar;
+    }
+
+    public string GetUserAvatar()
+    {
+        return userAvatar;
     }
 
     //If the name is changed in the name choosing screen this method should be called so the User can be updated if it already exists. 
@@ -90,11 +116,6 @@ public class MainController : MonoBehaviour
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-    }
-
     public void SwitchCharacter(Character pCharacter)
     {
         if (_characterInstance != null) Destroy(_characterInstance.gameObject);
@@ -104,7 +125,9 @@ public class MainController : MonoBehaviour
 
     public void GetDatabaseInformation()
     {
-
+        _goalList = database.ReadAllGoals();
+        _taskList = database.ReadAllTasks();
+        CheckForUser();
     }
 
     public void CreateGoal()
@@ -136,6 +159,7 @@ public class MainController : MonoBehaviour
         plusButton.transform.position += new Vector3(0, -280, 0);
     }
 
+    /*
     public void CreateTask()
     {
         if (_taskList.Count < 3)
@@ -170,4 +194,6 @@ public class MainController : MonoBehaviour
                 break;
         }
     }
+
+    */
 }
