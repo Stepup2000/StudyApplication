@@ -205,6 +205,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoalHeader
       objectReference: {fileID: 0}
+    - target: {fileID: 3661860706776831603, guid: ae40116929d5ccb4597f39b42bb0202b, type: 3}
+      propertyPath: m_Text
+      value: 'Task:'
+      objectReference: {fileID: 0}
     - target: {fileID: 4257015837476488430, guid: ae40116929d5ccb4597f39b42bb0202b, type: 3}
       propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

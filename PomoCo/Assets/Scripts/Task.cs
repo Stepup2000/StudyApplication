@@ -6,11 +6,12 @@ public class Task : MonoBehaviour
 {
     public int goalid;
     public int completed;
+
     public string taskname;
+
     public int time;
     public int id;
     public int priority;
-    private int taskNumber;
 
     public Task(int gid, int cmpld, string n, int t, int i, int p)
     {
@@ -27,8 +28,8 @@ public class Task : MonoBehaviour
         taskname = pName;
     }
 
-    public void SetTaskNumber(int pNumber)
+    public void SetTaskSetTaskID(int pNumber)
     {
-        taskNumber = pNumber;
+        goalid = pNumber;
     }
 }

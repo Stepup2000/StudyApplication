@@ -9,12 +9,11 @@ public class MainController : MonoBehaviour
 {
     public Character currentCharacterPrefab;
     [SerializeField] private Goal _goalPrefab;
-    //[SerializeField] private Task _taskPrefab;
+    [SerializeField] private Task _taskPrefab;
     private Character _characterInstance;
-    private int goalAmount = -1;
-    private int taskAmount = -1;
     private string[] nameArray = new string[3];
-    private GameObject _plusButton;
+    private ArrayList _goalList = new ArrayList();
+    private ArrayList _taskList = new ArrayList();
 
     // Start is called before the first frame update
     private void Start()
@@ -28,43 +27,61 @@ public class MainController : MonoBehaviour
         _characterInstance = Instantiate<Character>(currentCharacterPrefab, transform.position, Quaternion.identity);
     }
 
+    public void GetDatabaseInformation()
+    {
+
+    }
+
     public void CreateGoal()
     {
-        if (goalAmount < nameArray.Length - 1)
+        if (_goalList.Count < 3)
         {
-            taskAmount += 1;
-            Vector3 position = new Vector3(0, 780 - (goalAmount * 550), 0);
+            Vector3 position = new Vector3(0, 780 - (_goalList.Count * 550), 0);
             var goal = Instantiate<Goal>(_goalPrefab, position, Quaternion.identity);
-            var goalParent = GameObject.Find("Goals");
-            goal.transform.SetParent(goalParent.transform, false);
-            goal.SetGoalName("" + nameArray[goalAmount]);
-            goal.SetGoalNumber(goalAmount);
-            _plusButton = GameObject.Find("AddGoalButton");
-            _plusButton.transform.position += new Vector3(0, -280, 0);
+            _goalList.Add(goal);
+            var scrollContainer = GameObject.Find("Goals");
+            goal.transform.SetParent(scrollContainer.transform, false);
+            goal.SetGoalName("Insert name for goal_" + _goalList.Count);
+            goal.SetGoalNumber(_goalList.Count);
+            var plusButton = GameObject.Find("AddGoalButton");
+            plusButton.transform.position += new Vector3(0, -280, 0);
         }
+    }
+
+    public void LoadGoal(int ID)
+    {
+        Vector3 position = new Vector3(0, 780 - (ID * 550), 0);
+        var goal = Instantiate<Goal>(_goalPrefab, position, Quaternion.identity);
+        var scrollContainer = GameObject.Find("Goals");
+        goal.transform.SetParent(scrollContainer.transform, false);
+        Goal listEntry = (Goal)_goalList[ID];
+        goal.SetGoalName("" + listEntry.name);
+        goal.SetGoalNumber(ID);
+        var plusButton = GameObject.Find("AddGoalButton");
+        plusButton.transform.position += new Vector3(0, -280, 0);
     }
 
     public void CreateTask()
     {
-        if (goalAmount < 3)
+        if (_taskList.Count < 3)
         {
-            goalAmount += 1;
-            Vector3 position = new Vector3(0, 780 - (taskAmount * 550), 0);
-            //var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
-            var taskParent = GameObject.Find("Tasks");
-            //task.transform.SetParent(taskParent.transform, false);
-            //task.SetTaskName("" + nameArray[taskAmount]);
-            //task.SetTaskNumber(taskAmount);
-            _plusButton = GameObject.Find("AddGoalButton");
-            _plusButton.transform.position += new Vector3(0, -280, 0);
+            Vector3 position = new Vector3(0, 780 - ((_taskList.Count + 1) * 550), 0);
+            var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
+            _taskList.Add(task);
+            var scrollContainer = GameObject.Find("Tasks");
+            task.transform.SetParent(scrollContainer.transform, false);
+            task.SetTaskName("" + nameArray[_taskList.Count + 1]);
+            task.SetTaskSetTaskID(_taskList.Count + 1);
+            var plusButton = GameObject.Find("AddTaskButton");
+            plusButton.transform.position += new Vector3(0, -280, 0);
         }
     }
 
-    public void ChangeGoalName(int number, string name)
+    public void ChangeGoalName(int ID, string name)
     {
 
-        nameArray[number] = name;
-        Debug.Log(nameArray[number]);
+        nameArray[ID] = name;
+        Debug.Log(nameArray[ID]);
     }
 
     public void LoadScene(string sceneName)

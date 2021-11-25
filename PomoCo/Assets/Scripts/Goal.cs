@@ -8,15 +8,17 @@ public class Goal : MonoBehaviour
 {
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _placeHolder;
+
     private int _goalNumber;
-    public int id;
+
+    public int goalid;
     public int status;
     public string gname;
     public int priority;
 
     public Goal(int i, int s, string n, int p)
     {
-        id = i;
+        goalid = i;
         status = s;
         gname = n;
         priority = p;
@@ -30,7 +32,7 @@ public class Goal : MonoBehaviour
 
     public void SetGoalNumber(int pNumber)
     {
-        _goalNumber = pNumber;
+        goalid = pNumber;
     }
 
     public void ChangeGoalName()
