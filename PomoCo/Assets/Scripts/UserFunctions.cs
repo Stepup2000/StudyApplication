@@ -27,4 +27,9 @@ public class UserFunctions : MonoBehaviour
     {
         _myController.AddUser();
     }
+
+    public void CreateGoal()
+    {
+        _myController.CreateGoal();
+    }
 }
