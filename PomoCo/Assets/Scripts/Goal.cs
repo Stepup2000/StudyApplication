@@ -9,20 +9,8 @@ public class Goal : MonoBehaviour
     [SerializeField] private TMP_Text _nameText;
     [SerializeField] private TMP_Text _placeHolder;
 
-    private int _goalNumber;
+    private int ID;
 
-    public int goalid;
-    public int status;
-    public string gname;
-    public int priority;
-
-    public Goal(int i, int s, string n, int p)
-    {
-        goalid = i;
-        status = s;
-        gname = n;
-        priority = p;
-    }
 
     public void SetGoalName(string Pname)
     {
@@ -30,14 +18,14 @@ public class Goal : MonoBehaviour
         _placeHolder.text = Pname;
     }
 
-    public void SetGoalNumber(int pNumber)
+    public void SetGoalNumber(int i)
     {
-        goalid = pNumber;
+        ID = i;
     }
 
     public void ChangeGoalName()
     {
         var controller = GameObject.Find("MainController").GetComponent<MainController>();
-        controller.ChangeGoalName(_goalNumber, _nameText.text);
+        controller.ChangeGoalName(ID, _nameText.text);
     }
 }
