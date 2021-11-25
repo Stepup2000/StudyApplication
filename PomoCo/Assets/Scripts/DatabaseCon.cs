@@ -206,7 +206,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        Task currentTask = new Task(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -215,13 +215,16 @@ public class DatabaseCon
         }
 
         //Debug code that checks if the right tasks were selected
+        /**
         for (int i = 0; i < arrlist.Count; i++)
         {
             Debug.Log("Im Here2!");
-            Task currTask = (Task)arrlist[i];
+            DataTask currTask = (DataTask)arrlist[i];
             Debug.Log("name: " + currTask.taskname + " id: " + currTask.id);
         }
+        */
         return arrlist;
+
     }
 
     //Reads all the tasks that belong to a certain goal! returns an array list with task objects in them Tasks objects contain
@@ -244,7 +247,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        Task currentTask = new Task(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -283,7 +286,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        Task currentTask = new Task(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -323,7 +326,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        Task currentTask = new Task(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -363,7 +366,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        Goal currentGoal = new Goal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1), reader.GetInt32(3));
+                        DataGoal currentGoal = new DataGoal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1), reader.GetInt32(3));
                         arrlist.Add(currentGoal);
                     }
                 }
@@ -403,7 +406,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        Goal currentGoal = new Goal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1), reader.GetInt32(3));
+                        DataGoal currentGoal = new DataGoal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1), reader.GetInt32(3));
                         arrlist.Add(currentGoal);
                     }
                 }
@@ -443,7 +446,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        Goal currentGoal = new Goal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1), reader.GetInt32(3));
+                        DataGoal currentGoal = new DataGoal(reader.GetInt32(0), reader.GetInt32(2), reader.GetString(1), reader.GetInt32(3));
                         arrlist.Add(currentGoal);
                     }
                 }
