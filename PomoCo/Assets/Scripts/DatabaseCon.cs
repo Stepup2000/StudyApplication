@@ -6,7 +6,7 @@ using IDbConnection = System.Data.IDbConnection;
 using Mono.Data.Sqlite;
 using System.Data;
 
-public class DatabaseCon : MonoBehaviour
+public class DatabaseCon
 {
 
     string DATABASE_NAME = "/pomoco.s3db";

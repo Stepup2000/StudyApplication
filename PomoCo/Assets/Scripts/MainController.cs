@@ -14,6 +14,81 @@ public class MainController : MonoBehaviour
     private string[] nameArray = new string[3];
     private GameObject _plusButton;
 
+    //Davids Part --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    private DatabaseCon database = new DatabaseCon();
+    private User user;
+    private string userName = "default";
+    private string userAvatar = "default";
+    private string userLearningType = "default";
+
+    public void SetUserName(string name)
+    {
+        userName = name;
+    }
+
+    public void SetUserLearningType(string lt)
+    {
+        userLearningType = lt;
+    }
+
+    public void SetUserAvatar(string avatar)
+    {
+        userAvatar = avatar;
+    }
+
+    //If the name is changed in the name choosing screen this method should be called so the User can be updated if it already exists. 
+    //The name is saved and the internal user updated. 
+    public void UpdateUserName(string name)
+    {
+        if (CheckForUser())
+        {
+            database.UpdateUserName(name);
+        }
+        SetUserName(name);
+        CheckForUser();
+    }
+
+    //If the avatar is changed in the avatar choosing screen this method should be called so the User can be updated if it already exists. 
+    //The avatar is saved and the internal user updated. 
+    public void UpdateUserAvatar(string avatar)
+    {
+        if (CheckForUser())
+        {
+            database.UpdateUserAvatar(avatar);
+        }
+        SetUserAvatar(avatar);
+        CheckForUser();
+    }
+
+    //Checks if a User exists in the database. Sets the User for further Use
+    public bool CheckForUser()
+    {
+        ArrayList list = database.ReadUser();
+        if (list.Count == 0)
+        {
+            return false;
+        }
+        else
+        {
+            user = (User)list[0];
+        }
+        return true;
+    }
+
+    //Adds a user to the database. Note that this will only work when there is no User already added to the database
+    public void AddUser()
+    {
+        if (!CheckForUser())
+        {
+            database.CreateUser(userAvatar, userLearningType, userName);
+            CheckForUser();
+        }
+    }
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
     // Start is called before the first frame update
     private void Start()
     {
