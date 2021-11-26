@@ -32,6 +32,7 @@ public class MainController : MonoBehaviour
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             GetDatabaseInformation();
         }
+        //AddUser();
     }
 
     public void SetUserName(string name)

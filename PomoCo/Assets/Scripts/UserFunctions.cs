@@ -26,6 +26,7 @@ public class UserFunctions : MonoBehaviour
     public void CreateUser()
     {
         _myController.AddUser();
+        Debug.Log("hier");
     }
 
     public void CreateGoal()

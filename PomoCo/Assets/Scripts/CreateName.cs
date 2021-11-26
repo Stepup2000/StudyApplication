@@ -19,7 +19,7 @@ public class CreateName : MonoBehaviour
 
     public void InputName()
     {
-        if (!string.Equals(_inputField, "")) _myController.SetUserName(_inputField.text);
+        if (!string.Equals("", _inputField.text)) _myController.SetUserName(_inputField.text);
     }
 
     public void ClickEnabler()
@@ -30,6 +30,6 @@ public class CreateName : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
