@@ -16,11 +16,20 @@ public class MainController : MonoBehaviour
 
     //Davids Part --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
     private DatabaseCon database = new DatabaseCon();
+
+    //User
     private User user;
     private string userName = "default";
     private string userAvatar = "default";
     private string userLearningType = "default";
+
+    //Goals
+    private string goalName = "goal name";
+    private int goalStatus = 1;
+    private int goalPrio = 1;
 
     private void Start()
     {
@@ -32,7 +41,6 @@ public class MainController : MonoBehaviour
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             GetDatabaseInformation();
         }
-        //AddUser();
     }
 
     public void SetUserName(string name)
@@ -113,22 +121,33 @@ public class MainController : MonoBehaviour
             CheckForUser();
         }
     }
-    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+    //Goals---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-
-    public void SwitchCharacter(Character pCharacter)
+    //Loads all the goals from the Array List that contains the goals from the database and calls the function for each of them to be instantiated. 
+    public void SetGoalName(string n)
     {
-        if (_characterInstance != null) Destroy(_characterInstance.gameObject);
-        currentCharacterPrefab = pCharacter;
-        _characterInstance = Instantiate<Character>(currentCharacterPrefab, transform.position, Quaternion.identity);
+        goalName = n;
     }
 
-    public void GetDatabaseInformation()
+    public void SetGoalPrio(int p)
     {
-        _goalList = database.ReadAllGoals();
-        _taskList = database.ReadAllTasks();
-        CheckForUser();
+        goalPrio = p;
+    }
+
+    public void SetGoalStatus(int s)
+    {
+        goalStatus = s;
+    }
+
+    public void LoadAllGoals()
+    {
+        for (int i = 0; i < _goalList.Count; i++)
+        {
+            DataGoal currentGoal = (DataGoal)_goalList[i];
+            LoadSingleGoal(currentGoal);
+        }
     }
 
     public void CreateGoal()
@@ -137,28 +156,56 @@ public class MainController : MonoBehaviour
         {
             Vector3 position = new Vector3(0, 780 - (_goalList.Count * 550), 0);
             var goal = Instantiate<Goal>(_goalPrefab, position, Quaternion.identity);
-            _goalList.Add(goal);
+
+
+            database.CreateGoal(goalName, goalStatus, goalPrio);
+            _goalList = database.ReadAllGoals();
+
+
             var scrollContainer = GameObject.Find("Goals");
             goal.transform.SetParent(scrollContainer.transform, false);
-            goal.SetGoalName("Insert name for goal_" + _goalList.Count);
-            goal.SetGoalNumber(_goalList.Count);
+
+            goal.SetGoalName(((DataGoal)_goalList[_goalList.Count - 1]).gname);
+
+
+            goal.SetGoalNumber(((DataGoal)_goalList[_goalList.Count - 1]).GetGoalID());
+
+
             var plusButton = GameObject.Find("AddGoalButton");
-            plusButton.transform.position += new Vector3(0, -280, 0);
+            plusButton.transform.position += new Vector3(0, -235, 0);
         }
     }
 
-    public void LoadGoal(int ID)
+    public void LoadSingleGoal(DataGoal dg)
     {
-        Vector3 position = new Vector3(0, 780 - (ID * 550), 0);
+        Debug.Log(dg.goalid);
+        Vector3 position = new Vector3(0, 780 - ((dg.goalid - 1) * 550), 0);
         var goal = Instantiate<Goal>(_goalPrefab, position, Quaternion.identity);
         var scrollContainer = GameObject.Find("Goals");
         goal.transform.SetParent(scrollContainer.transform, false);
-        Goal listEntry = (Goal)_goalList[ID];
-        goal.SetGoalName("" + listEntry.name);
-        goal.SetGoalNumber(ID);
+        goal.SetGoalName("" + dg.gname);
+        goal.SetGoalNumber(dg.goalid);
         var plusButton = GameObject.Find("AddGoalButton");
-        plusButton.transform.position += new Vector3(0, -280, 0);
+        plusButton.transform.position += new Vector3(0, -235, 0);
     }
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+
+    public void GetDatabaseInformation()
+    {
+        _goalList = database.ReadAllGoals();
+        _taskList = database.ReadAllTasks();
+        CheckForUser();
+    }
+
+    public void SwitchCharacter(Character pCharacter)
+    {
+        if (_characterInstance != null) Destroy(_characterInstance.gameObject);
+        currentCharacterPrefab = pCharacter;
+        _characterInstance = Instantiate<Character>(currentCharacterPrefab, transform.position, Quaternion.identity);
+    }
+
 
     /*
     public void CreateTask()
@@ -196,5 +243,6 @@ public class MainController : MonoBehaviour
         }
     }
 
-    */
+*/
+
 }
