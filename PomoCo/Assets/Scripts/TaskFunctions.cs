@@ -15,7 +15,7 @@ public class TaskFunctions : MonoBehaviour
     {
         _myController = GameObject.Find("MainController").GetComponent<MainController>();
         myTaskScript = transform.gameObject.GetComponent<Task>();
-        Debug.Log("Create goal controller");
+        //Debug.Log("Create goal controller");
         //_myController.LoadAllGoals();
     }
 
