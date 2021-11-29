@@ -520,6 +520,8 @@ public class DatabaseCon
             {
                 //This Command deletes a Task
                 command.CommandText = "DELETE FROM tasks WHERE id = " + taskID + ";";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -538,6 +540,8 @@ public class DatabaseCon
             {
                 //This Command deletes all Tasks for the goal
                 command.CommandText = "DELETE FROM tasks WHERE goal_id = " + goalID + ";";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -557,6 +561,8 @@ public class DatabaseCon
             {
                 //This Command deletes the goal
                 command.CommandText = "DELETE FROM goals WHERE id= " + goalID + ";";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -574,6 +580,8 @@ public class DatabaseCon
             {
                 //This Command updates the user
                 command.CommandText = "UPDATE users SET avatar = '" + avatar + "' WHERE id = 1;";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -591,6 +599,8 @@ public class DatabaseCon
             {
                 //This Command updates the user
                 command.CommandText = "UPDATE users SET name = '" + name + "' WHERE id = 1;";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -606,8 +616,10 @@ public class DatabaseCon
             //access the database using a command
             using (var command = connection.CreateCommand())
             {
+                Debug.Log("here + " + id);
                 //This Command updates the goal
                 command.CommandText = "UPDATE goals SET name = '" + name + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
             }
             connection.Close();
         }
@@ -625,6 +637,8 @@ public class DatabaseCon
             {
                 //This Command updates the goal
                 command.CommandText = "UPDATE goals SET gpriority = '" + prio + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -642,6 +656,8 @@ public class DatabaseCon
             {
                 //This Command updates the task
                 command.CommandText = "UPDATE goals SET name = '" + name + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -659,6 +675,7 @@ public class DatabaseCon
             {
                 //This Command updates the task
                 command.CommandText = "UPDATE goals SET tpriority = '" + priority + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
             }
             connection.Close();
         }
@@ -676,6 +693,7 @@ public class DatabaseCon
             {
                 //This Command updates the task
                 command.CommandText = "UPDATE goals SET time = '" + time + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
             }
             connection.Close();
         }

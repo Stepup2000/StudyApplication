@@ -12,6 +12,11 @@ public class Goal : MonoBehaviour
     public int ID;
 
 
+    public int GetGoalID()
+    {
+        return ID;
+    }
+
     public void SetGoalName(string Pname)
     {
         _nameText.text = Pname;

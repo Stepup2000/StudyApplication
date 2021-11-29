@@ -7,18 +7,22 @@ public class GoalFunctions : MonoBehaviour
     private MainController _myController;
 
 
+    private Goal myGoalScript;
+
+
     // Start is called before the first frame update
     void Start()
     {
         _myController = GameObject.Find("MainController").GetComponent<MainController>();
+        myGoalScript = transform.gameObject.GetComponent<Goal>();
         Debug.Log("Create goal controller");
         //_myController.LoadAllGoals();
     }
 
 
-    public void SetSelectedGoal(int id)
+    public void SetSelectedGoal()
     {
-        _myController.setSelectedGoalID(id);
+        _myController.setSelectedGoalID(myGoalScript.GetGoalID());
     }
 
     public void SetGoalName(string n)

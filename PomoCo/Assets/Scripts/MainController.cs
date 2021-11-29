@@ -47,6 +47,7 @@ public class MainController : MonoBehaviour
     public void SetUserName(string name)
     {
         userName = name;
+        UpdateUserName(userName);
     }
 
     public string GetUserName()
@@ -67,6 +68,7 @@ public class MainController : MonoBehaviour
     public void SetUserAvatar(string avatar)
     {
         userAvatar = avatar;
+        UpdateUserAvatar(userAvatar);
     }
 
     public string GetUserAvatar()
@@ -83,6 +85,18 @@ public class MainController : MonoBehaviour
             database.UpdateUserName(name);
         }
         SetUserName(name);
+        CheckForUser();
+    }
+
+    //If the learning type is changed in the name choosing screen this method should be called so the User can be updated if it already exists. 
+    //The user type is saved and the internal user updated. 
+    public void UpdateUserType(string ut)
+    {
+        if (CheckForUser())
+        {
+            database.UpdateUserName(ut);
+        }
+        SetUserLearningType(ut);
         CheckForUser();
     }
 
@@ -129,11 +143,19 @@ public class MainController : MonoBehaviour
     //Loads all the goals from the Array List that contains the goals from the database and calls the function for each of them to be instantiated. 
     public void setSelectedGoalID(int gid)
     {
+        //Debug.Log("asrkljgfnsrk " + gid);
         selectedGoalID = gid;
     }
     public void SetGoalName(string n)
     {
         goalName = n;
+    }
+
+    public void SetSelectedGoalName(int ID, string n)
+    {
+        goalName = n;
+        //Debug.Log("new name " + n + " " + ID);
+        UpdateGoal(n, ID);
     }
 
     public void SetGoalPrio(int p)
@@ -153,6 +175,12 @@ public class MainController : MonoBehaviour
             DataGoal currentGoal = (DataGoal)_goalList[i];
             LoadSingleGoal(currentGoal);
         }
+    }
+
+    public void UpdateGoal(string gname, int gid)
+    {
+        database.UpdateGoalName(gname, gid);
+        _goalList = database.ReadAllGoals();
     }
 
     public void CreateGoal()
