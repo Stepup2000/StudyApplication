@@ -102,8 +102,9 @@ public class DatabaseCon
     //needs a name, time in minutes and a status. The status needs to be a number between 1 and 0
     public bool CreateTask(int goalid, string name, int time, int completed, int priority)
     {
+        Debug.Log("e.wak,lrnf wek.rf wke.j fr");
         //checks if a name was entered, if a valid time was entered and if the task is incomplete
-        if (name != "" && time != 0 && completed == 0)
+        if (name != "" && time != 0 && completed != 0)
         {
             using (var connection = new SqliteConnection(conn))
             {
@@ -113,6 +114,7 @@ public class DatabaseCon
                 using (var command = connection.CreateCommand())
                 {
 
+                    Debug.Log("laeriwskgnbweklrfg");
                     //creates a new goal with the according name
                     command.CommandText = "INSERT INTO tasks (name, time, is_completed, goal_id, tpriority) VALUES ('" + name + "','" + time + "','" + completed + "','" + goalid + "','" + priority + "');";
                     //Debug.Log(goalid);

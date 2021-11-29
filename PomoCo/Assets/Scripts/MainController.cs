@@ -32,6 +32,14 @@ public class MainController : MonoBehaviour
     private int goalStatus = 1;
     private int goalPrio = 1;
 
+    //Tasks
+    private int taskTime = 100;
+    private string taskName = "task name";
+    private int taskStatus = 1;
+    private int taskPrio = 1;
+    private int selectedTaskID;
+
+
     private void Start()
     {
         database.StartDB();
@@ -222,8 +230,92 @@ public class MainController : MonoBehaviour
         plusButton.transform.position += new Vector3(0, -235, 0);
     }
 
-    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    //Tasks----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
+    public void SetTaskName(string n)
+    {
+        taskName = n;
+    }
+
+    public void SetTaskTime(int t)
+    {
+        taskTime = t;
+    }
+
+    public void SetTaskStatus(int s)
+    {
+        taskStatus = s;
+    }
+
+    public void SetTaskPrio(int p)
+    {
+        taskPrio = p;
+    }
+
+    public void SetSelectedTask(int id)
+    {
+        selectedTaskID = id;
+    }
+
+    public void LoadAllTasks()
+    {
+        _taskList = database.ReadTasksForGoalX(selectedGoalID);
+        for (int i = 0; i < _taskList.Count; i++)
+        {
+            DataTask currentTask = (DataTask)_taskList[i];
+            LoadSingleTask(currentTask);
+        }
+    }
+
+    public void UpdateTask(string tname, int tid)
+    {
+        database.UpdateTaskName(tname, tid);
+        _taskList = database.ReadAllTasks();
+    }
+
+    public void CreateTask()
+    {
+        _taskList = database.ReadTasksForGoalX(selectedGoalID);
+        if (_taskList.Count < 3)
+        {
+            Vector3 position = new Vector3(0, 780 - (_taskList.Count * 550), 0);
+            var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
+
+
+            database.CreateTask(selectedGoalID, taskName, taskTime, taskStatus, taskPrio);
+            _taskList = database.ReadAllTasks();
+
+
+            var scrollContainer = GameObject.Find("Tasks");
+            task.transform.SetParent(scrollContainer.transform, false);
+
+
+            task.SetTaskName(((DataTask)_taskList[_taskList.Count - 1]).taskname);
+            task.SetTaskTime(((DataTask)_taskList[_taskList.Count - 1]).time);
+            task.SetTaskID(((DataTask)_taskList[_taskList.Count - 1]).id);
+
+            var plusButton = GameObject.Find("AddTaskButton");
+            plusButton.transform.position += new Vector3(0, -235, 0);
+        }
+    }
+
+    public void LoadSingleTask(DataTask dt)
+    {
+        Debug.Log(dt.id);
+        Vector3 position = new Vector3(0, 780 - ((dt.id - 1) * 550), 0);
+        var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
+        var scrollContainer = GameObject.Find("Tasks");
+        task.transform.SetParent(scrollContainer.transform, false);
+
+        task.SetTaskName("" + dt.taskname);
+        task.SetTaskID(dt.id);
+        task.SetTaskTime(dt.time);
+
+        var plusButton = GameObject.Find("AddTaskButton");
+        plusButton.transform.position += new Vector3(0, -235, 0);
+    }
+
+    //Tasks----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
     public void GetDatabaseInformation()
     {
@@ -240,42 +332,5 @@ public class MainController : MonoBehaviour
     }
 
 
-    /*
-    public void CreateTask()
-    {
-        if (_taskList.Count < 3)
-        {
-            Vector3 position = new Vector3(0, 780 - ((_taskList.Count + 1) * 550), 0);
-            var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
-            _taskList.Add(task);
-            var scrollContainer = GameObject.Find("Tasks");
-            task.transform.SetParent(scrollContainer.transform, false);
-            task.SetTaskName("" + nameArray[_taskList.Count + 1]);
-            task.SetTaskSetTaskID(_taskList.Count + 1);
-            var plusButton = GameObject.Find("AddTaskButton");
-            plusButton.transform.position += new Vector3(0, -280, 0);
-        }
-    }
-
-    public void ChangeGoalName(int ID, string name)
-    {
-
-        nameArray[ID] = name;
-        Debug.Log(nameArray[ID]);
-    }
-
-    public void LoadScene(string sceneName)
-    {
-        //SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
-
-        switch (sceneName)
-        {
-            case "GoalCreation":
-                for (int i = 0; i < nameArray.Length; i++) CreateGoal();
-                break;
-        }
-    }
-
-*/
 
 }
