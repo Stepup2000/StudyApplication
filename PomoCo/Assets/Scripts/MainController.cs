@@ -32,6 +32,8 @@ public class MainController : MonoBehaviour
     private int goalStatus = 1;
     private int goalPrio = 1;
 
+    private int loadedGoalsCount = 0;
+
     //Tasks
     private int taskTime = 100;
     private string taskName = "task name";
@@ -39,6 +41,7 @@ public class MainController : MonoBehaviour
     private int taskPrio = 1;
     private int selectedTaskID;
 
+    private int loadedTasksCount = 0;
 
     private void Start()
     {
@@ -92,7 +95,7 @@ public class MainController : MonoBehaviour
         {
             database.UpdateUserName(name);
         }
-        SetUserName(name);
+        //SetUserName(name);
         CheckForUser();
     }
 
@@ -104,7 +107,7 @@ public class MainController : MonoBehaviour
         {
             database.UpdateUserName(ut);
         }
-        SetUserLearningType(ut);
+        //SetUserLearningType(ut);
         CheckForUser();
     }
 
@@ -116,7 +119,7 @@ public class MainController : MonoBehaviour
         {
             database.UpdateUserAvatar(avatar);
         }
-        SetUserAvatar(avatar);
+        //SetUserAvatar(avatar);
         CheckForUser();
     }
 
@@ -178,11 +181,13 @@ public class MainController : MonoBehaviour
 
     public void LoadAllGoals()
     {
+        loadedGoalsCount = 0;
         for (int i = 0; i < _goalList.Count; i++)
         {
             DataGoal currentGoal = (DataGoal)_goalList[i];
             LoadSingleGoal(currentGoal);
         }
+        loadedTasksCount = 0;
     }
 
     public void UpdateGoal(string gname, int gid)
@@ -195,7 +200,8 @@ public class MainController : MonoBehaviour
     {
         if (_goalList.Count < 3)
         {
-            Vector3 position = new Vector3(0, 780 - (_goalList.Count * 550), 0);
+            loadedGoalsCount++;
+            Vector3 position = new Vector3(0, 780 - ((loadedGoalsCount - 1) * 550), 0);
             var goal = Instantiate<Goal>(_goalPrefab, position, Quaternion.identity);
 
 
@@ -219,8 +225,8 @@ public class MainController : MonoBehaviour
 
     public void LoadSingleGoal(DataGoal dg)
     {
-        Debug.Log(dg.goalid);
-        Vector3 position = new Vector3(0, 780 - ((dg.goalid - 1) * 550), 0);
+        loadedGoalsCount++;
+        Vector3 position = new Vector3(0, 780 - ((loadedGoalsCount - 1) * 550), 0);
         var goal = Instantiate<Goal>(_goalPrefab, position, Quaternion.identity);
         var scrollContainer = GameObject.Find("Goals");
         goal.transform.SetParent(scrollContainer.transform, false);
@@ -259,6 +265,7 @@ public class MainController : MonoBehaviour
 
     public void LoadAllTasks()
     {
+        //Debug.Log("selected goal: " + selectedGoalID);
         _taskList = database.ReadTasksForGoalX(selectedGoalID);
         for (int i = 0; i < _taskList.Count; i++)
         {
@@ -278,7 +285,8 @@ public class MainController : MonoBehaviour
         _taskList = database.ReadTasksForGoalX(selectedGoalID);
         if (_taskList.Count < 3)
         {
-            Vector3 position = new Vector3(0, 780 - (_taskList.Count * 550), 0);
+            loadedTasksCount++;
+            Vector3 position = new Vector3(0, 780 - ((loadedTasksCount - 1) * 550), 0);
             var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
 
 
@@ -301,8 +309,9 @@ public class MainController : MonoBehaviour
 
     public void LoadSingleTask(DataTask dt)
     {
-        Debug.Log(dt.id);
-        Vector3 position = new Vector3(0, 780 - ((dt.id - 1) * 550), 0);
+        Debug.Log(loadedTasksCount);
+        loadedTasksCount++;
+        Vector3 position = new Vector3(0, 780 - ((loadedTasksCount - 1) * 550), 0);
         var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
         var scrollContainer = GameObject.Find("Tasks");
         task.transform.SetParent(scrollContainer.transform, false);
