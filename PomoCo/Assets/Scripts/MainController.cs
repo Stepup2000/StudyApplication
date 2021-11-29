@@ -27,6 +27,7 @@ public class MainController : MonoBehaviour
     private string userLearningType = "default";
 
     //Goals
+    private int selectedGoalID;
     private string goalName = "goal name";
     private int goalStatus = 1;
     private int goalPrio = 1;
@@ -126,6 +127,10 @@ public class MainController : MonoBehaviour
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
     //Loads all the goals from the Array List that contains the goals from the database and calls the function for each of them to be instantiated. 
+    public void setSelectedGoalID(int gid)
+    {
+        selectedGoalID = gid;
+    }
     public void SetGoalName(string n)
     {
         goalName = n;

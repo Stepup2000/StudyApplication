@@ -15,6 +15,12 @@ public class GoalFunctions : MonoBehaviour
         //_myController.LoadAllGoals();
     }
 
+
+    public void SetSelectedGoal(int id)
+    {
+        _myController.setSelectedGoalID(id);
+    }
+
     public void SetGoalName(string n)
     {
         _myController.SetGoalName(n);
