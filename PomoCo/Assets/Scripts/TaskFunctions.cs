@@ -1,13 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TaskFunctions : MonoBehaviour
 {
     private MainController _myController;
-
-
     private Task myTaskScript;
+    [SerializeField] private TMP_InputField _inputFieldName;
+
+    [SerializeField] private TMP_InputField _inputFieldTime;
+
+    [SerializeField] private TMP_InputField _inputFieldReward;
 
 
     // Start is called before the first frame update
@@ -21,21 +25,31 @@ public class TaskFunctions : MonoBehaviour
 
     public void AddTask()
     {
+        //_myController.SetSelectedTask(myTaskScript.taskid);
         _myController.CreateTask();
     }
 
-    public void SetTaskName(string n)
+    public void SetTaskName()
     {
-        _myController.SetTaskName(n);
+        _myController.SetSelectedTask(myTaskScript.taskid);
+        _myController.SetTaskName(_inputFieldName.text);
     }
 
-    public void SetTaskTime(int t)
+    public void SetTaskReward()
     {
-        _myController.SetTaskTime(t);
+        _myController.SetSelectedTask(myTaskScript.taskid);
+        _myController.SetTaskReward(_inputFieldReward.text);
+    }
+    public void SetTaskTime()
+    {
+        _myController.SetSelectedTask(myTaskScript.taskid);
+        int i = int.Parse(_inputFieldTime.text);
+        _myController.SetTaskTime(i);
     }
 
     public void SetTaskStatus(int s)
     {
+        _myController.SetSelectedTask(myTaskScript.taskid);
         _myController.SetTaskStatus(s);
     }
 

@@ -13,7 +13,9 @@ public class DataTask
     public int id;
     public int priority;
 
-    public DataTask(int gid, int cmpld, string n, int t, int i, int p)
+    public string reward;
+
+    public DataTask(int gid, int cmpld, string n, int t, int i, int p, string r)
     {
         goalid = gid;
         completed = cmpld;
@@ -21,6 +23,7 @@ public class DataTask
         time = t;
         id = i;
         priority = p;
+        reward = r;
     }
 
     public void SetTaskName(string pName)
