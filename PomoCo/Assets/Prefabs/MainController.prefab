@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCharacterPrefab: {fileID: 5863177910051716324, guid: d6b0b55071a33b84daed7e725c58e69b, type: 3}
-  _goalPrefab: {fileID: 6638808102568618184, guid: b4f084fa2053ba24ea2699ea82cd2ebe, type: 3}
-  _taskPrefab: {fileID: -525466751162658444, guid: 88ef4e1928daf794783c552361c612db, type: 3}
+  _goalPrefab: {fileID: 7214457825386345574, guid: 700609429482b6546b068e44515d146b, type: 3}
+  _taskPrefab: {fileID: 5615719765164873495, guid: 562643f803086934db409229e6f4bf5f, type: 3}
 --- !u!114 &7977475844497907306
 MonoBehaviour:
   m_ObjectHideFlags: 0

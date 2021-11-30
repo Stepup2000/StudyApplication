@@ -56,7 +56,7 @@ public class DatabaseCon
                 command.ExecuteNonQuery();
 
                 //Task Table
-                command.CommandText = "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, time INTEGER, tpriority INTEGER, is_completed NUMBER(1), goal_id INTEGER, FOREIGN KEY (goal_id) REFERENCES goals (id));";
+                command.CommandText = "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, time INTEGER, tpriority INTEGER, is_completed NUMBER(1), treward TEXT, goal_id INTEGER, FOREIGN KEY (goal_id) REFERENCES goals (id));";
                 command.ExecuteNonQuery();
 
                 //User Table
@@ -100,7 +100,7 @@ public class DatabaseCon
 
     //Creates a new Task. A task is related to a goal and needs the goal_id. Additionally it 
     //needs a name, time in minutes and a status. The status needs to be a number between 1 and 0
-    public bool CreateTask(int goalid, string name, int time, int completed, int priority)
+    public bool CreateTask(int goalid, string name, int time, int completed, int priority, string reward)
     {
         //Debug.Log("e.wak,lrnf wek.rf wke.j fr");
         //checks if a name was entered, if a valid time was entered and if the task is incomplete
@@ -116,7 +116,7 @@ public class DatabaseCon
 
                     //Debug.Log("laeriwskgnbweklrfg");
                     //creates a new goal with the according name
-                    command.CommandText = "INSERT INTO tasks (name, time, is_completed, goal_id, tpriority) VALUES ('" + name + "','" + time + "','" + completed + "','" + goalid + "','" + priority + "');";
+                    command.CommandText = "INSERT INTO tasks (name, time, is_completed, goal_id, tpriority, treward) VALUES ('" + name + "','" + time + "','" + completed + "','" + goalid + "','" + priority + "','" + reward + "');";
                     //Debug.Log(goalid);
                     command.ExecuteNonQuery();
 
@@ -208,7 +208,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(6), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3), reader.GetString(5));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -249,7 +249,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(6), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3), reader.GetString(5));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -288,7 +288,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(6), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3), reader.GetString(5));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -328,7 +328,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(6), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3), reader.GetString(5));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -657,7 +657,7 @@ public class DatabaseCon
             using (var command = connection.CreateCommand())
             {
                 //This Command updates the task
-                command.CommandText = "UPDATE goals SET name = '" + name + "' WHERE id = " + id + ";";
+                command.CommandText = "UPDATE tasks SET name = '" + name + "' WHERE id = " + id + ";";
                 command.ExecuteNonQuery();
 
             }
@@ -676,7 +676,7 @@ public class DatabaseCon
             using (var command = connection.CreateCommand())
             {
                 //This Command updates the task
-                command.CommandText = "UPDATE goals SET tpriority = '" + priority + "' WHERE id = " + id + ";";
+                command.CommandText = "UPDATE tasks SET tpriority = '" + priority + "' WHERE id = " + id + ";";
                 command.ExecuteNonQuery();
             }
             connection.Close();
@@ -694,7 +694,25 @@ public class DatabaseCon
             using (var command = connection.CreateCommand())
             {
                 //This Command updates the task
-                command.CommandText = "UPDATE goals SET time = '" + time + "' WHERE id = " + id + ";";
+                command.CommandText = "UPDATE tasks SET time = '" + time + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the Reward of a specific task identified by its ID
+    public void UpdateTaskReward(string reward, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the task
+                command.CommandText = "UPDATE tasks SET treward = '" + reward + "' WHERE id = " + id + ";";
                 command.ExecuteNonQuery();
             }
             connection.Close();

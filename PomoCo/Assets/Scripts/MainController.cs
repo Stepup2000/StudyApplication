@@ -37,6 +37,9 @@ public class MainController : MonoBehaviour
     //Tasks
     private int taskTime = 100;
     private string taskName = "task name";
+
+    private string taskReward = "";
+
     private int taskStatus = 1;
     private int taskPrio = 1;
     private int selectedTaskID;
@@ -238,14 +241,22 @@ public class MainController : MonoBehaviour
 
     //Tasks----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
+    public void SetTaskReward(string r)
+    {
+        taskReward = r;
+        UpdateTaskReward(r, selectedTaskID);
+    }
+
     public void SetTaskName(string n)
     {
         taskName = n;
+        UpdateTaskName(taskName, selectedTaskID);
     }
 
     public void SetTaskTime(int t)
     {
         taskTime = t;
+        UpdateTaskTime(taskTime, selectedTaskID);
     }
 
     public void SetTaskStatus(int s)
@@ -274,9 +285,20 @@ public class MainController : MonoBehaviour
         }
     }
 
-    public void UpdateTask(string tname, int tid)
+    public void UpdateTaskName(string tname, int tid)
     {
         database.UpdateTaskName(tname, tid);
+    }
+
+    public void UpdateTaskTime(int time, int tid)
+    {
+        database.UpdateTaskTime(time, tid);
+        _taskList = database.ReadAllTasks();
+    }
+
+    public void UpdateTaskReward(string r, int tid)
+    {
+        database.UpdateTaskReward(r, tid);
         _taskList = database.ReadAllTasks();
     }
 
@@ -290,7 +312,7 @@ public class MainController : MonoBehaviour
             var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
 
 
-            database.CreateTask(selectedGoalID, taskName, taskTime, taskStatus, taskPrio);
+            database.CreateTask(selectedGoalID, taskName, taskTime, taskStatus, taskPrio, taskReward);
             _taskList = database.ReadAllTasks();
 
 
@@ -319,6 +341,7 @@ public class MainController : MonoBehaviour
         task.SetTaskName("" + dt.taskname);
         task.SetTaskID(dt.id);
         task.SetTaskTime(dt.time);
+        task.SetTaskReward(dt.reward);
 
         var plusButton = GameObject.Find("AddTaskButton");
         plusButton.transform.position += new Vector3(0, -235, 0);
