@@ -185,6 +185,8 @@ public class MainController : MonoBehaviour
 
     public void LoadAllGoals()
     {
+        taskStatus = 0;
+
         loadedGoalsCount = 0;
         for (int i = 0; i < _goalList.Count; i++)
         {
@@ -296,6 +298,7 @@ public class MainController : MonoBehaviour
     {
         database.UpdateTaskTime(time, tid);
         _taskList = database.ReadAllTasks();
+        taskStatus = 0;
     }
 
     public void UpdateTaskReward(string r, int tid)
