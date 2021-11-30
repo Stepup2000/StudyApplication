@@ -12,6 +12,4 @@ public class LoadTasks : MonoBehaviour
         _myController = GameObject.Find("MainController").GetComponent<MainController>();
         _myController.LoadAllTasks();
     }
-
-
 }

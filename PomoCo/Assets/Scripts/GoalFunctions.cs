@@ -15,7 +15,7 @@ public class GoalFunctions : MonoBehaviour
     {
         _myController = GameObject.Find("MainController").GetComponent<MainController>();
         myGoalScript = transform.gameObject.GetComponent<Goal>();
-        Debug.Log("Create goal controller");
+        //Debug.Log("Create goal controller");
         //_myController.LoadAllGoals();
     }
 

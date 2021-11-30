@@ -50,4 +50,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Progress.unity
     guid: e841b45aa367ecb4da389f360ef9a7c9
+  - enabled: 1
+    path: Assets/Scenes/BreakTimer.unity
+    guid: 099734a5fc7bf8a48818bfcf26c33ae5
   m_configObjects: {}

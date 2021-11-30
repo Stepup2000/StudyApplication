@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 
 public class MainController : MonoBehaviour
@@ -179,6 +180,7 @@ public class MainController : MonoBehaviour
     public void SetGoalStatus(int s)
     {
         goalStatus = s;
+        database.UpdateTaskStatus(taskStatus, selectedTaskID);
     }
 
     public void LoadAllGoals()
@@ -301,6 +303,11 @@ public class MainController : MonoBehaviour
         _taskList = database.ReadAllTasks();
     }
 
+    public int GetTaskTime()
+    {
+        return taskTime;
+    }
+
     public void CreateTask()
     {
         _taskList = database.ReadTasksForGoalX(selectedGoalID);
@@ -347,6 +354,15 @@ public class MainController : MonoBehaviour
 
         var plusButton = GameObject.Find("AddTaskButton");
         plusButton.transform.position += new Vector3(0, -235, 0);
+
+        if (dt.completed == 1)
+        {
+            Debug.Log("Completed goal");
+            var headerButton = task.GetComponent<Button>();
+            headerButton.interactable = false;
+            ColorBlock colorBlock = headerButton.colors;
+            colorBlock.normalColor = Color.green;
+        }
     }
 
     //Loads all the completed Tasks
