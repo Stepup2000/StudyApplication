@@ -47,4 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WorkTimer.unity
     guid: b78c7ba1276f6e647afed490f1ff930a
+  - enabled: 1
+    path: Assets/Scenes/Progress.unity
+    guid: e841b45aa367ecb4da389f360ef9a7c9
   m_configObjects: {}

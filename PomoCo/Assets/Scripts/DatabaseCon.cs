@@ -104,7 +104,7 @@ public class DatabaseCon
     {
         //Debug.Log("e.wak,lrnf wek.rf wke.j fr");
         //checks if a name was entered, if a valid time was entered and if the task is incomplete
-        if (name != "" && time != 0 && completed != 0)
+        if (name != "" && time != 0)
         {
             using (var connection = new SqliteConnection(conn))
             {
@@ -281,7 +281,7 @@ public class DatabaseCon
             //access the database using a command
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "SELECT * FROM tasks WHERE is_completed = 0";
+                command.CommandText = "SELECT * FROM tasks WHERE is_completed = 1";
 
                 //This code reads the select statement by executing it and the reading it line by line until there is no line left
                 using (IDataReader reader = command.ExecuteReader())
@@ -646,6 +646,25 @@ public class DatabaseCon
         }
     }
 
+    //Updates the Status of a specific goal identified by its ID
+    //Status can only be a 0 or a 1!
+    public void UpdateGoalStatus(int status, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the task
+                command.CommandText = "UPDATE goals SET status = '" + status + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+            }
+            connection.Close();
+        }
+    }
+
     //Updates the name of a specific task identified by its ID
     public void UpdateTaskName(string name, int id)
     {
@@ -713,6 +732,25 @@ public class DatabaseCon
             {
                 //This Command updates the task
                 command.CommandText = "UPDATE tasks SET treward = '" + reward + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the Status of a specific task identified by its ID
+    //Status can only be a 0 or a 1!
+    public void UpdateTaskStatus(int status, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the task
+                command.CommandText = "UPDATE tasks SET is_completed = '" + status + "' WHERE id = " + id + ";";
                 command.ExecuteNonQuery();
             }
             connection.Close();
