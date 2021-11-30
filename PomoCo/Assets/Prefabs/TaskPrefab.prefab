@@ -130,6 +130,42 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 303555547780565181}
+        m_TargetAssemblyTypeName: TaskFunctions, Assembly-CSharp
+        m_MethodName: SetTaskTime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 303555547780565181}
+        m_TargetAssemblyTypeName: TaskFunctions, Assembly-CSharp
+        m_MethodName: SetTaskReward
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 303555547780565181}
+        m_TargetAssemblyTypeName: TaskFunctions, Assembly-CSharp
+        m_MethodName: SetTaskName
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 423119712786437187}
         m_TargetAssemblyTypeName: GoToRoom, Assembly-CSharp
         m_MethodName: LoadScene
