@@ -62,6 +62,10 @@ public class DatabaseCon
                 //User Table
                 command.CommandText = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, learningType TEXT, avatar TEXT);";
                 command.ExecuteNonQuery();
+
+                //Notes Table
+                command.CommandText = "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ntext TEXT, category TEXT, task_id INTEGER, FOREIGN KEY (task_id) REFERENCES tasks (id));";
+                command.ExecuteNonQuery();
             }
             connection.Close();
         }
@@ -128,6 +132,32 @@ public class DatabaseCon
         {
             return false;
         }
+        return true;
+    }
+
+
+    //Creates a new Note. A Note is related to a task and needs the task_id. Additionally it 
+    //needs a name, text and a category.
+    public bool CreateNote(string text, string category, int task_id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+
+                //Debug.Log("laeriwskgnbweklrfg");
+                //creates a new goal with the according name
+                command.CommandText = "INSERT INTO tasks (ntext, category, task_id) VALUES ('" + text + "','" + category + "','" + task_id + "');";
+                //Debug.Log(goalid);
+                command.ExecuteNonQuery();
+
+            }
+            connection.Close();
+        }
+
         return true;
     }
 
@@ -251,6 +281,43 @@ public class DatabaseCon
                     {
                         DataTask currentTask = new DataTask(reader.GetInt32(6), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3), reader.GetString(5));
                         arrlist.Add(currentTask);
+                    }
+                }
+            }
+            connection.Close();
+        }
+        //Debug code that checks if the right tasks were selected
+        /**
+        for (int i = 0; i < arrlist.Count; i++)
+        {
+            Debug.Log("Im Here2!");
+            Task currTask = (Task)arrlist[i];
+            Debug.Log("name: " + currTask.taskname + " id: " + currTask.id);
+        }
+        */
+        return arrlist;
+    }
+
+    public ArrayList ReadNotesForTaskX(int taskID)
+    {
+        ArrayList arrlist = new ArrayList();
+
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT * FROM notes WHERE task_id = " + taskID;
+
+                //This code reads the select statement by executing it and the reading it line by line until there is no line left
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        DataNote currentNote = new DataNote(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt16(3));
+                        arrlist.Add(currentNote);
                     }
                 }
             }
@@ -529,6 +596,26 @@ public class DatabaseCon
         }
     }
 
+    //Deleting a certain note by its ID. If the note exists it gets deleted from the database
+    //When deleting a note there is nothing to worry about so no further logic is required. 
+    public void DeleteNote(int noteID)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command deletes a Task
+                command.CommandText = "DELETE FROM notes WHERE id = " + noteID + ";";
+                command.ExecuteNonQuery();
+
+            }
+            connection.Close();
+        }
+    }
+
     //Deleting a certain tasks by its goal ID. If the tasks exist they get deleted from the database
     //When deleting a task there is nothing to worry about so no further logic is required. 
     public void DeleteTaskByGoal(int goalID)
@@ -751,6 +838,25 @@ public class DatabaseCon
             {
                 //This Command updates the task
                 command.CommandText = "UPDATE tasks SET is_completed = '" + status + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the Status of a specific task identified by its ID
+    //Status can only be a 0 or a 1!
+    public void UpdateNoteText(string text, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the task
+                command.CommandText = "UPDATE notes SET ntext = '" + text + "' WHERE id = " + id + ";";
                 command.ExecuteNonQuery();
             }
             connection.Close();
