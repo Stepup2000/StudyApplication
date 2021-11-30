@@ -17,7 +17,6 @@ public class MainController : MonoBehaviour
     //Davids Part --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
-
     private DatabaseCon database = new DatabaseCon();
 
     //User
@@ -27,9 +26,9 @@ public class MainController : MonoBehaviour
     private string userLearningType = "default";
 
     //Goals
-    private int selectedGoalID;
+    private int selectedGoalID = 0;
     private string goalName = "goal name";
-    private int goalStatus = 1;
+    private int goalStatus = 0;
     private int goalPrio = 1;
 
     private int loadedGoalsCount = 0;
@@ -40,8 +39,8 @@ public class MainController : MonoBehaviour
 
     private string taskReward = "";
 
-    private int taskStatus = 1;
-    private int taskPrio = 1;
+    private int taskStatus = 0;
+    private int taskPrio = 0;
     private int selectedTaskID;
 
     private int loadedTasksCount = 0;
@@ -311,6 +310,7 @@ public class MainController : MonoBehaviour
             Vector3 position = new Vector3(0, 780 - ((loadedTasksCount - 1) * 550), 0);
             var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
 
+            Debug.Log(selectedGoalID);
 
             database.CreateTask(selectedGoalID, taskName, taskTime, taskStatus, taskPrio, taskReward);
             _taskList = database.ReadAllTasks();
@@ -326,12 +326,14 @@ public class MainController : MonoBehaviour
 
             var plusButton = GameObject.Find("AddTaskButton");
             plusButton.transform.position += new Vector3(0, -235, 0);
+
+            database.UpdateGoalStatus(0, selectedGoalID);
         }
     }
 
     public void LoadSingleTask(DataTask dt)
     {
-        Debug.Log(loadedTasksCount);
+        //Debug.Log(loadedTasksCount);
         loadedTasksCount++;
         Vector3 position = new Vector3(0, 780 - ((loadedTasksCount - 1) * 550), 0);
         var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
@@ -345,6 +347,20 @@ public class MainController : MonoBehaviour
 
         var plusButton = GameObject.Find("AddTaskButton");
         plusButton.transform.position += new Vector3(0, -235, 0);
+    }
+
+    //Loads all the completed Tasks
+    public int LoadCompletedTasks()
+    {
+        ArrayList completedTaskList = database.ReadCompletedTasks();
+        return completedTaskList.Count;
+    }
+
+    //Returns the amount of tasks planned
+    public int GetTaskCount()
+    {
+        GetDatabaseInformation();
+        return _taskList.Count;
     }
 
     //Tasks----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
