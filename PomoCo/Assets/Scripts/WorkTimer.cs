@@ -22,8 +22,8 @@ public class WorkTimer : MonoBehaviour
     {
         if (_myController.GetTaskTime() * 60 > 30 * 60)
         {
-            _originalTimeLeft = 30 * 60;
-            _timeLeft = _originalTimeLeft;
+            _originalTimeLeft = _myController.GetTaskTime() * 60;
+            _timeLeft = 30 * 60;
         }
         else
         {
@@ -49,21 +49,23 @@ public class WorkTimer : MonoBehaviour
     public void BreakOffSession()
     {
         int timePassed = (int)Mathf.Round(_originalTimeLeft - _passedTime);
+
         _myController.SetTaskTime(timePassed);
+
         SceneManager.LoadScene("WorkTimer", LoadSceneMode.Single);
     }
 
     private void TimerCompletion()
     {
-        _timeLeft = -1;
-        int timePassed = (int)Mathf.Round((_originalTimeLeft - _timeLeft) / 60);
+        //_timeLeft = -1;
+        int timePassed = (int)Mathf.Round((_originalTimeLeft - _passedTime) / 60);
         Debug.Log(timePassed);
         _myController.SetTaskTime(timePassed);
 
         if (_myController.GetTaskTime() > 0) SceneManager.LoadScene("BreakTimer", LoadSceneMode.Single);
         else
         {
-            _myController.SetGoalStatus(1);
+            _myController.SetTaskStatus(1);
             SceneManager.LoadScene("GoalCreation", LoadSceneMode.Single);
         }
     }

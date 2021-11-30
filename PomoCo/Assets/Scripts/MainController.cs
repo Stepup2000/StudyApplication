@@ -180,7 +180,7 @@ public class MainController : MonoBehaviour
     public void SetGoalStatus(int s)
     {
         goalStatus = s;
-        database.UpdateTaskStatus(taskStatus, selectedTaskID);
+        database.UpdateGoalStatus(goalStatus, selectedGoalID);
     }
 
     public void LoadAllGoals()

@@ -836,6 +836,7 @@ public class DatabaseCon
             //access the database using a command
             using (var command = connection.CreateCommand())
             {
+                Debug.Log("changing time id: " + id + " status: " + status);
                 //This Command updates the task
                 command.CommandText = "UPDATE tasks SET is_completed = '" + status + "' WHERE id = " + id + ";";
                 command.ExecuteNonQuery();
