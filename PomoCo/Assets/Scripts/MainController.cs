@@ -261,6 +261,7 @@ public class MainController : MonoBehaviour
     public void SetTaskStatus(int s)
     {
         taskStatus = s;
+        database.UpdateTaskStatus(taskStatus, selectedTaskID);
     }
 
     public void SetTaskPrio(int p)
