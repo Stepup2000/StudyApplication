@@ -676,7 +676,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1884297950128414627, guid: 19d1fa856951c434e85bfda7bb83e8a9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Creature
+      value: Animal
       objectReference: {fileID: 0}
     - target: {fileID: 1884297950128414627, guid: 19d1fa856951c434e85bfda7bb83e8a9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -938,7 +938,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1884297950128414627, guid: 19d1fa856951c434e85bfda7bb83e8a9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Woman
+      value: Female
       objectReference: {fileID: 0}
     - target: {fileID: 1884297950128414627, guid: 19d1fa856951c434e85bfda7bb83e8a9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -1495,7 +1495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1884297950128414627, guid: 19d1fa856951c434e85bfda7bb83e8a9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Man
+      value: Male
       objectReference: {fileID: 0}
     - target: {fileID: 1884297950128414627, guid: 19d1fa856951c434e85bfda7bb83e8a9, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
