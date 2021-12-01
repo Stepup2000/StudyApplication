@@ -77,6 +77,7 @@ public class MainController : MonoBehaviour
     public void SetUserLearningType(string lt)
     {
         userLearningType = lt;
+        UpdateUserType(userLearningType);
     }
 
     public void SetUserAvatar(string avatar)
@@ -137,6 +138,9 @@ public class MainController : MonoBehaviour
         else
         {
             user = (User)list[0];
+            userAvatar = user.avatar;
+            userLearningType = user.learningType;
+            userName = user.name;
         }
         return true;
     }
