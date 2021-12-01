@@ -26,4 +26,9 @@ public class DataGoal
     {
         goalid = pNumber;
     }
+
+    public int GetGoalID()
+    {
+        return goalid;
+    }
 }

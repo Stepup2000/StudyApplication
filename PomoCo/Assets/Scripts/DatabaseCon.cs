@@ -56,11 +56,15 @@ public class DatabaseCon
                 command.ExecuteNonQuery();
 
                 //Task Table
-                command.CommandText = "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, time INTEGER, tpriority INTEGER, is_completed NUMBER(1), goal_id INTEGER, FOREIGN KEY (goal_id) REFERENCES goals (id));";
+                command.CommandText = "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, time INTEGER, tpriority INTEGER, is_completed NUMBER(1), treward TEXT, goal_id INTEGER, FOREIGN KEY (goal_id) REFERENCES goals (id));";
                 command.ExecuteNonQuery();
 
                 //User Table
                 command.CommandText = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT, learningType TEXT, avatar TEXT);";
+                command.ExecuteNonQuery();
+
+                //Notes Table
+                command.CommandText = "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ntext TEXT, category TEXT, task_id INTEGER, FOREIGN KEY (task_id) REFERENCES tasks (id));";
                 command.ExecuteNonQuery();
             }
             connection.Close();
@@ -100,10 +104,11 @@ public class DatabaseCon
 
     //Creates a new Task. A task is related to a goal and needs the goal_id. Additionally it 
     //needs a name, time in minutes and a status. The status needs to be a number between 1 and 0
-    public bool CreateTask(int goalid, string name, int time, int completed, int priority)
+    public bool CreateTask(int goalid, string name, int time, int completed, int priority, string reward)
     {
+        //Debug.Log("e.wak,lrnf wek.rf wke.j fr");
         //checks if a name was entered, if a valid time was entered and if the task is incomplete
-        if (name != "" && time != 0 && completed == 0)
+        if (name != "" && time != 0)
         {
             using (var connection = new SqliteConnection(conn))
             {
@@ -113,8 +118,9 @@ public class DatabaseCon
                 using (var command = connection.CreateCommand())
                 {
 
+                    //Debug.Log("laeriwskgnbweklrfg");
                     //creates a new goal with the according name
-                    command.CommandText = "INSERT INTO tasks (name, time, is_completed, goal_id, tpriority) VALUES ('" + name + "','" + time + "','" + completed + "','" + goalid + "','" + priority + "');";
+                    command.CommandText = "INSERT INTO tasks (name, time, is_completed, goal_id, tpriority, treward) VALUES ('" + name + "','" + time + "','" + completed + "','" + goalid + "','" + priority + "','" + reward + "');";
                     //Debug.Log(goalid);
                     command.ExecuteNonQuery();
 
@@ -126,6 +132,32 @@ public class DatabaseCon
         {
             return false;
         }
+        return true;
+    }
+
+
+    //Creates a new Note. A Note is related to a task and needs the task_id. Additionally it 
+    //needs a name, text and a category.
+    public bool CreateNote(string text, string category, int task_id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+
+                //Debug.Log("laeriwskgnbweklrfg");
+                //creates a new goal with the according name
+                command.CommandText = "INSERT INTO tasks (ntext, category, task_id) VALUES ('" + text + "','" + category + "','" + task_id + "');";
+                //Debug.Log(goalid);
+                command.ExecuteNonQuery();
+
+            }
+            connection.Close();
+        }
+
         return true;
     }
 
@@ -206,7 +238,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(6), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3), reader.GetString(5));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -247,8 +279,45 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(6), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3), reader.GetString(5));
                         arrlist.Add(currentTask);
+                    }
+                }
+            }
+            connection.Close();
+        }
+        //Debug code that checks if the right tasks were selected
+        /**
+        for (int i = 0; i < arrlist.Count; i++)
+        {
+            Debug.Log("Im Here2!");
+            Task currTask = (Task)arrlist[i];
+            Debug.Log("name: " + currTask.taskname + " id: " + currTask.id);
+        }
+        */
+        return arrlist;
+    }
+
+    public ArrayList ReadNotesForTaskX(int taskID)
+    {
+        ArrayList arrlist = new ArrayList();
+
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = "SELECT * FROM notes WHERE task_id = " + taskID;
+
+                //This code reads the select statement by executing it and the reading it line by line until there is no line left
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        DataNote currentNote = new DataNote(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt16(3));
+                        arrlist.Add(currentNote);
                     }
                 }
             }
@@ -279,14 +348,14 @@ public class DatabaseCon
             //access the database using a command
             using (var command = connection.CreateCommand())
             {
-                command.CommandText = "SELECT * FROM tasks WHERE is_completed = 0";
+                command.CommandText = "SELECT * FROM tasks WHERE is_completed = 1";
 
                 //This code reads the select statement by executing it and the reading it line by line until there is no line left
                 using (IDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(6), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3), reader.GetString(5));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -326,7 +395,7 @@ public class DatabaseCon
                 {
                     while (reader.Read())
                     {
-                        DataTask currentTask = new DataTask(reader.GetInt32(5), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3));
+                        DataTask currentTask = new DataTask(reader.GetInt32(6), (int)reader.GetInt32(4), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(0), reader.GetInt32(3), reader.GetString(5));
                         arrlist.Add(currentTask);
                     }
                 }
@@ -520,6 +589,28 @@ public class DatabaseCon
             {
                 //This Command deletes a Task
                 command.CommandText = "DELETE FROM tasks WHERE id = " + taskID + ";";
+                command.ExecuteNonQuery();
+
+            }
+            connection.Close();
+        }
+    }
+
+    //Deleting a certain note by its ID. If the note exists it gets deleted from the database
+    //When deleting a note there is nothing to worry about so no further logic is required. 
+    public void DeleteNote(int noteID)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command deletes a Task
+                command.CommandText = "DELETE FROM notes WHERE id = " + noteID + ";";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -538,6 +629,8 @@ public class DatabaseCon
             {
                 //This Command deletes all Tasks for the goal
                 command.CommandText = "DELETE FROM tasks WHERE goal_id = " + goalID + ";";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -557,6 +650,8 @@ public class DatabaseCon
             {
                 //This Command deletes the goal
                 command.CommandText = "DELETE FROM goals WHERE id= " + goalID + ";";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -574,6 +669,8 @@ public class DatabaseCon
             {
                 //This Command updates the user
                 command.CommandText = "UPDATE users SET avatar = '" + avatar + "' WHERE id = 1;";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -591,6 +688,8 @@ public class DatabaseCon
             {
                 //This Command updates the user
                 command.CommandText = "UPDATE users SET name = '" + name + "' WHERE id = 1;";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -606,8 +705,10 @@ public class DatabaseCon
             //access the database using a command
             using (var command = connection.CreateCommand())
             {
+                //Debug.Log("here + " + id);
                 //This Command updates the goal
                 command.CommandText = "UPDATE goals SET name = '" + name + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
             }
             connection.Close();
         }
@@ -625,6 +726,27 @@ public class DatabaseCon
             {
                 //This Command updates the goal
                 command.CommandText = "UPDATE goals SET gpriority = '" + prio + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the Status of a specific goal identified by its ID
+    //Status can only be a 0 or a 1!
+    public void UpdateGoalStatus(int status, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the task
+                command.CommandText = "UPDATE goals SET status = '" + status + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
             }
             connection.Close();
         }
@@ -641,7 +763,9 @@ public class DatabaseCon
             using (var command = connection.CreateCommand())
             {
                 //This Command updates the task
-                command.CommandText = "UPDATE goals SET name = '" + name + "' WHERE id = " + id + ";";
+                command.CommandText = "UPDATE tasks SET name = '" + name + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+
             }
             connection.Close();
         }
@@ -658,7 +782,8 @@ public class DatabaseCon
             using (var command = connection.CreateCommand())
             {
                 //This Command updates the task
-                command.CommandText = "UPDATE goals SET tpriority = '" + priority + "' WHERE id = " + id + ";";
+                command.CommandText = "UPDATE tasks SET tpriority = '" + priority + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
             }
             connection.Close();
         }
@@ -675,7 +800,65 @@ public class DatabaseCon
             using (var command = connection.CreateCommand())
             {
                 //This Command updates the task
-                command.CommandText = "UPDATE goals SET time = '" + time + "' WHERE id = " + id + ";";
+                command.CommandText = "UPDATE tasks SET time = '" + time + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the Reward of a specific task identified by its ID
+    public void UpdateTaskReward(string reward, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the task
+                command.CommandText = "UPDATE tasks SET treward = '" + reward + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the Status of a specific task identified by its ID
+    //Status can only be a 0 or a 1!
+    public void UpdateTaskStatus(int status, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                Debug.Log("changing time id: " + id + " status: " + status);
+                //This Command updates the task
+                command.CommandText = "UPDATE tasks SET is_completed = '" + status + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+            }
+            connection.Close();
+        }
+    }
+
+    //Updates the Status of a specific task identified by its ID
+    //Status can only be a 0 or a 1!
+    public void UpdateNoteText(string text, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the task
+                command.CommandText = "UPDATE notes SET ntext = '" + text + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
             }
             connection.Close();
         }

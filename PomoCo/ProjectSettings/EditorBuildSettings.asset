@@ -47,4 +47,25 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WorkTimer.unity
     guid: b78c7ba1276f6e647afed490f1ff930a
+  - enabled: 1
+    path: Assets/Scenes/Progress.unity
+    guid: e841b45aa367ecb4da389f360ef9a7c9
+  - enabled: 1
+    path: Assets/Scenes/BreakTimer.unity
+    guid: 099734a5fc7bf8a48818bfcf26c33ae5
+  - enabled: 1
+    path: Assets/Scenes/infographic4.unity
+    guid: ba3b1851099c05743b67af8a5bfea1f7
+  - enabled: 1
+    path: Assets/Scenes/infographic1.unity
+    guid: 30b147ad9865a7346af20e2a2b8e450d
+  - enabled: 1
+    path: Assets/Scenes/infographic2.unity
+    guid: 48765be04ef334444ac0505fe6ab5483
+  - enabled: 1
+    path: Assets/Scenes/infographic3.unity
+    guid: aaabe74a4b0583848a6275240352737a
+  - enabled: 1
+    path: Assets/Scenes/infographic5.unity
+    guid: 2cf8771805a2a0742a84d558e624174c
   m_configObjects: {}

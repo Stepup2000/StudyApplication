@@ -6,11 +6,16 @@ using TMPro;
 
 public class Goal : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _nameText;
+    [SerializeField] public TMP_Text _nameText;
     [SerializeField] private TMP_Text _placeHolder;
 
-    private int ID;
+    public int ID;
 
+
+    public int GetGoalID()
+    {
+        return ID;
+    }
 
     public void SetGoalName(string Pname)
     {
