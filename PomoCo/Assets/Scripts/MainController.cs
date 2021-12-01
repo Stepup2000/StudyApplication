@@ -15,9 +15,6 @@ public class MainController : MonoBehaviour
     private ArrayList _goalList = new ArrayList();
     private ArrayList _taskList = new ArrayList();
 
-    //Davids Part --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-
     private DatabaseCon database = new DatabaseCon();
 
     //User
@@ -48,6 +45,7 @@ public class MainController : MonoBehaviour
 
     private void Start()
     {
+        Screen.SetResolution(576, 1024, false);
         database.StartDB();
 
         if (!CheckForUser()) SceneManager.LoadScene("WelcomeScreen", LoadSceneMode.Single);
