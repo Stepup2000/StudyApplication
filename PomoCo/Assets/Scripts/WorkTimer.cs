@@ -48,11 +48,11 @@ public class WorkTimer : MonoBehaviour
 
     public void BreakOffSession()
     {
-        int timePassed = (int)Mathf.Round(_originalTimeLeft - _passedTime);
+        int timePassed = (int)Mathf.Round((_originalTimeLeft - _passedTime) / 60);
 
         _myController.SetTaskTime(timePassed);
 
-        SceneManager.LoadScene("WorkTimer", LoadSceneMode.Single);
+        //SceneManager.LoadScene("WorkTimer", LoadSceneMode.Single);
     }
 
     private void TimerCompletion()
