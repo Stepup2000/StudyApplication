@@ -106,7 +106,7 @@ public class DatabaseCon
     //needs a name, time in minutes and a status. The status needs to be a number between 1 and 0
     public bool CreateTask(int goalid, string name, int time, int completed, int priority, string reward)
     {
-        //Debug.Log("e.wak,lrnf wek.rf wke.j fr");
+        Debug.Log("e.wak,lrnf wek.rf wke.j fr");
         //checks if a name was entered, if a valid time was entered and if the task is incomplete
         if (name != "" && time != 0)
         {
@@ -117,13 +117,10 @@ public class DatabaseCon
                 //access the database using a command
                 using (var command = connection.CreateCommand())
                 {
-
-                    //Debug.Log("laeriwskgnbweklrfg");
                     //creates a new goal with the according name
                     command.CommandText = "INSERT INTO tasks (name, time, is_completed, goal_id, tpriority, treward) VALUES ('" + name + "','" + time + "','" + completed + "','" + goalid + "','" + priority + "','" + reward + "');";
                     //Debug.Log(goalid);
                     command.ExecuteNonQuery();
-
                 }
                 connection.Close();
             }
@@ -150,7 +147,7 @@ public class DatabaseCon
 
                 //Debug.Log("laeriwskgnbweklrfg");
                 //creates a new goal with the according name
-                command.CommandText = "INSERT INTO tasks (ntext, category, task_id) VALUES ('" + text + "','" + category + "','" + task_id + "');";
+                command.CommandText = "INSERT INTO notes (ntext, category, task_id) VALUES ('" + text + "','" + category + "','" + task_id + "');";
                 //Debug.Log(goalid);
                 command.ExecuteNonQuery();
 
