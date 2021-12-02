@@ -11,12 +11,12 @@ public class MainController : MonoBehaviour
     public Character currentCharacterPrefab;
     [SerializeField] private Goal _goalPrefab;
     [SerializeField] private Task _taskPrefab;
+    [SerializeField] private Note _notePrefab;
+    [SerializeField] private Button popUp;
     private Character _characterInstance;
     private ArrayList _goalList = new ArrayList();
     private ArrayList _taskList = new ArrayList();
-
-    //Davids Part --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    private ArrayList _noteList = new ArrayList();
 
     private DatabaseCon database = new DatabaseCon();
 
@@ -31,23 +31,30 @@ public class MainController : MonoBehaviour
     private string goalName = "goal name";
     private int goalStatus = 0;
     private int goalPrio = 1;
-
     private int loadedGoalsCount = 0;
+
+    //Notes
+
+    private int loadedNoteCount = 0;
+    private string noteText;
+    private string noteCategory;
+    private int note_ID;
 
     //Tasks
     private int taskTime = 100;
     private string taskName = "task name";
-
     private string taskReward = "";
-
     private int taskStatus = 0;
     private int taskPrio = 0;
     private int selectedTaskID;
 
     private int loadedTasksCount = 0;
 
+
+
     private void Start()
     {
+        Screen.SetResolution(576, 1024, false);
         database.StartDB();
 
         if (!CheckForUser()) SceneManager.LoadScene("WelcomeScreen", LoadSceneMode.Single);
@@ -161,7 +168,6 @@ public class MainController : MonoBehaviour
     //Loads all the goals from the Array List that contains the goals from the database and calls the function for each of them to be instantiated. 
     public void setSelectedGoalID(int gid)
     {
-        //Debug.Log("asrkljgfnsrk " + gid);
         selectedGoalID = gid;
     }
     public void SetGoalName(string n)
@@ -172,7 +178,6 @@ public class MainController : MonoBehaviour
     public void SetSelectedGoalName(int ID, string n)
     {
         goalName = n;
-        //Debug.Log("new name " + n + " " + ID);
         UpdateGoal(n, ID);
     }
 
@@ -264,6 +269,11 @@ public class MainController : MonoBehaviour
     {
         taskTime = t;
         UpdateTaskTime(taskTime, selectedTaskID);
+
+        if (taskTime >= 101)
+        {
+            CreatePopUpWithInput("Dont you want to split this task up?");
+        }
     }
 
     public void SetTaskStatus(int s)
@@ -284,7 +294,7 @@ public class MainController : MonoBehaviour
 
     public void LoadAllTasks()
     {
-        //Debug.Log("selected goal: " + selectedGoalID);
+        taskTime = 1;
         _taskList = database.ReadTasksForGoalX(selectedGoalID);
         for (int i = 0; i < _taskList.Count; i++)
         {
@@ -348,6 +358,7 @@ public class MainController : MonoBehaviour
 
     public void LoadSingleTask(DataTask dt)
     {
+        //loadedNoteCount = 0;
         //Debug.Log(loadedTasksCount);
         loadedTasksCount++;
         Vector3 position = new Vector3(0, 780 - ((loadedTasksCount - 1) * 550), 0);
@@ -365,7 +376,7 @@ public class MainController : MonoBehaviour
 
         if (dt.completed == 1)
         {
-            Debug.Log("Completed goal");
+            //Debug.Log("Completed goal");
             var headerButton = task.GetComponent<Button>();
             headerButton.interactable = false;
             ColorBlock colorBlock = headerButton.colors;
@@ -387,7 +398,107 @@ public class MainController : MonoBehaviour
         return _taskList.Count;
     }
 
-    //Tasks----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    //Notes----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+    public void LoadNotes()
+    {
+        loadedNoteCount = 0;
+        _noteList = database.ReadNotesForTaskX(selectedTaskID);
+        for (int i = 0; i < _noteList.Count; i++)
+        {
+            DataNote currentNote = (DataNote)_noteList[i];
+            LoadSingleNote(currentNote);
+        }
+
+    }
+
+    public void LoadSingleNote(DataNote dn)
+    {
+        loadedNoteCount++;
+        Vector3 position = new Vector3(0, 680 - ((loadedNoteCount - 1) * 550), 0);
+        var note = Instantiate<Note>(_notePrefab, position, Quaternion.identity);
+        var scrollContainer = GameObject.Find("Notes");
+        note.transform.SetParent(scrollContainer.transform, false);
+
+        note.SetCategory(dn.category);
+        note.SetText(dn.text);
+        note.note_id = dn.note_id;
+        note.task_id = dn.task_id;
+
+        var plusButton = GameObject.Find("AddNoteButton");
+        plusButton.transform.position += new Vector3(0, -220, 0);
+    }
+
+    public void CreateNote()
+    {
+        _noteList = database.ReadNotesForTaskX(selectedTaskID);
+        if (_noteList.Count < 3)
+        {
+            loadedNoteCount++;
+            Vector3 position = new Vector3(0, 680 - ((loadedNoteCount - 1) * 550), 0);
+            var note = Instantiate<Note>(_notePrefab, position, Quaternion.identity);
+
+            Debug.Log(loadedNoteCount);
+
+            database.CreateNote(noteText, noteCategory, selectedTaskID);
+            _noteList = database.ReadNotesForTaskX(selectedTaskID);
+
+
+            var scrollContainer = GameObject.Find("Notes");
+            note.transform.SetParent(scrollContainer.transform, false);
+
+            note.category = ((DataNote)_noteList[_noteList.Count - 1]).category;
+            note.text = ((DataNote)_noteList[_noteList.Count - 1]).text;
+            note.note_id = ((DataNote)_noteList[_noteList.Count - 1]).note_id;
+            note.task_id = ((DataNote)_noteList[_noteList.Count - 1]).task_id;
+
+            var plusButton = GameObject.Find("AddNoteButton");
+            plusButton.transform.position += new Vector3(0, -220, 0);
+        }
+    }
+
+    public void SetNoteText(string t, int noteid)
+    {
+        noteText = t;
+        note_ID = noteid;
+        database.UpdateNoteText(noteText, note_ID);
+    }
+
+    public void SetNoteCategory(string c, int noteid)
+    {
+        noteCategory = c;
+        note_ID = noteid;
+        database.UpdateNoteCategory(noteCategory, note_ID);
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+    public void CreatePopUp()
+    {
+
+        string t = "Hello " + userName + "!";
+
+        Debug.Log("click");
+        Vector3 position = new Vector3(0, -200, 0);
+        var pop_up = Instantiate<Button>(popUp, position, Quaternion.identity);
+
+        var container = GameObject.Find("Canvas");
+        pop_up.transform.SetParent(container.transform, false);
+
+        pop_up.GetComponentInChildren<TMP_Text>().text = t;
+    }
+
+    public void CreatePopUpWithInput(string t)
+    {
+        Vector3 position = new Vector3(0, -200, 0);
+        var pop_up = Instantiate<Button>(popUp, position, Quaternion.identity);
+
+        var container = GameObject.Find("Canvas");
+        pop_up.transform.SetParent(container.transform, false);
+
+        pop_up.GetComponentInChildren<TMP_Text>().text = t;
+    }
+
 
     public void GetDatabaseInformation()
     {
