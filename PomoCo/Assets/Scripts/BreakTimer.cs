@@ -36,6 +36,6 @@ public class BreakTimer : MonoBehaviour
 
         float min = Mathf.Floor(_timeLeft / 60);
         float seconds = _timeLeft % 60;
-        _timerText.text = "Time left: " + min + " : " + Mathf.Round(seconds);
+        _timerText.text = min + " : " + Mathf.Round(seconds);
     }
 }

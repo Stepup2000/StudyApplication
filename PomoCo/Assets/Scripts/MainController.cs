@@ -159,7 +159,6 @@ public class MainController : MonoBehaviour
     //Loads all the goals from the Array List that contains the goals from the database and calls the function for each of them to be instantiated. 
     public void setSelectedGoalID(int gid)
     {
-        //Debug.Log("asrkljgfnsrk " + gid);
         selectedGoalID = gid;
     }
     public void SetGoalName(string n)
@@ -170,7 +169,6 @@ public class MainController : MonoBehaviour
     public void SetSelectedGoalName(int ID, string n)
     {
         goalName = n;
-        //Debug.Log("new name " + n + " " + ID);
         UpdateGoal(n, ID);
     }
 
@@ -282,7 +280,6 @@ public class MainController : MonoBehaviour
 
     public void LoadAllTasks()
     {
-        //Debug.Log("selected goal: " + selectedGoalID);
         _taskList = database.ReadTasksForGoalX(selectedGoalID);
         for (int i = 0; i < _taskList.Count; i++)
         {
@@ -322,8 +319,6 @@ public class MainController : MonoBehaviour
             loadedTasksCount++;
             Vector3 position = new Vector3(0, 780 - ((loadedTasksCount - 1) * 550), 0);
             var task = Instantiate<Task>(_taskPrefab, position, Quaternion.identity);
-
-            Debug.Log(selectedGoalID);
 
             database.CreateTask(selectedGoalID, taskName, taskTime, taskStatus, taskPrio, taskReward);
             _taskList = database.ReadAllTasks();
