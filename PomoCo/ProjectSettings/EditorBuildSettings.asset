@@ -35,9 +35,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Notes.unity
     guid: 1ae71a93c0b84334ab5cb020bbfb76dc
-  - enabled: 1
-    path: Assets/Scenes/PomodoroChooser.unity
-    guid: 0709a6a6592d69748b505eb2c21d3b86
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/Record.unity
     guid: 1f163bdc0b823d347b9a0a5f0eb6f1c2
