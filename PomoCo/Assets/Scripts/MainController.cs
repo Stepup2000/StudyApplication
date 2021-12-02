@@ -12,6 +12,7 @@ public class MainController : MonoBehaviour
     [SerializeField] private Goal _goalPrefab;
     [SerializeField] private Task _taskPrefab;
     [SerializeField] private Note _notePrefab;
+    [SerializeField] private Button popUp;
     private Character _characterInstance;
     private ArrayList _goalList = new ArrayList();
     private ArrayList _taskList = new ArrayList();
@@ -272,6 +273,11 @@ public class MainController : MonoBehaviour
     {
         taskTime = t;
         UpdateTaskTime(taskTime, selectedTaskID);
+
+        if (taskTime >= 101)
+        {
+            CreatePopUpWithInput("Dont you want to split this task up?");
+        }
     }
 
     public void SetTaskStatus(int s)
@@ -473,6 +479,32 @@ public class MainController : MonoBehaviour
     }
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+    public void CreatePopUp()
+    {
+
+        string t = "Hello " + userName + "!";
+
+        Debug.Log("click");
+        Vector3 position = new Vector3(0, -200, 0);
+        var pop_up = Instantiate<Button>(popUp, position, Quaternion.identity);
+
+        var container = GameObject.Find("Canvas");
+        pop_up.transform.SetParent(container.transform, false);
+
+        pop_up.GetComponentInChildren<TMP_Text>().text = t;
+    }
+
+    public void CreatePopUpWithInput(string t)
+    {
+        Vector3 position = new Vector3(0, -200, 0);
+        var pop_up = Instantiate<Button>(popUp, position, Quaternion.identity);
+
+        var container = GameObject.Find("Canvas");
+        pop_up.transform.SetParent(container.transform, false);
+
+        pop_up.GetComponentInChildren<TMP_Text>().text = t;
+    }
 
 
     public void GetDatabaseInformation()

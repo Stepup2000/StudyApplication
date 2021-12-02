@@ -135,6 +135,10 @@ PrefabInstance:
       value: MainController
       objectReference: {fileID: 0}
     - target: {fileID: 3652878305571144145, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
+      propertyPath: popUp
+      value: 
+      objectReference: {fileID: 5711419623718903737, guid: 4642c64045642f84c813161d90bd6770, type: 3}
+    - target: {fileID: 3652878305571144145, guid: 37cf404148bd9294ebdb085218ca9359, type: 3}
       propertyPath: _goalPrefab
       value: 
       objectReference: {fileID: 7214457825386345574, guid: 700609429482b6546b068e44515d146b, type: 3}
