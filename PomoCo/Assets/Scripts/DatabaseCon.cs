@@ -860,4 +860,23 @@ public class DatabaseCon
             connection.Close();
         }
     }
+
+    //Updates the Status of a specific task identified by its ID
+    //Status can only be a 0 or a 1!
+    public void UpdateNoteCategory(string cat, int id)
+    {
+        using (var connection = new SqliteConnection(conn))
+        {
+            connection.Open();
+
+            //access the database using a command
+            using (var command = connection.CreateCommand())
+            {
+                //This Command updates the task
+                command.CommandText = "UPDATE notes SET category = '" + cat + "' WHERE id = " + id + ";";
+                command.ExecuteNonQuery();
+            }
+            connection.Close();
+        }
+    }
 }

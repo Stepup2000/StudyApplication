@@ -40,6 +40,7 @@ public class MainController : MonoBehaviour
     private int loadedNoteCount = 0;
     private string noteText;
     private string noteCategory;
+    private int note_ID;
 
     //Tasks
     private int taskTime = 100;
@@ -420,13 +421,13 @@ public class MainController : MonoBehaviour
         var scrollContainer = GameObject.Find("Notes");
         note.transform.SetParent(scrollContainer.transform, false);
 
-        note.category = dn.category;
-        note.text = dn.text;
+        note.SetCategory(dn.category);
+        note.SetText(dn.text);
         note.note_id = dn.note_id;
         note.task_id = dn.task_id;
 
         var plusButton = GameObject.Find("AddNoteButton");
-        plusButton.transform.position += new Vector3(0, -200, 0);
+        plusButton.transform.position += new Vector3(0, -220, 0);
     }
 
     public void CreateNote()
@@ -453,18 +454,22 @@ public class MainController : MonoBehaviour
             note.task_id = ((DataNote)_noteList[_noteList.Count - 1]).task_id;
 
             var plusButton = GameObject.Find("AddNoteButton");
-            plusButton.transform.position += new Vector3(0, -200, 0);
+            plusButton.transform.position += new Vector3(0, -220, 0);
         }
     }
 
-    public void SetNoteText(string t)
+    public void SetNoteText(string t, int noteid)
     {
         noteText = t;
+        note_ID = noteid;
+        database.UpdateNoteText(noteText, note_ID);
     }
 
-    public void SetNoteCategory(string c)
+    public void SetNoteCategory(string c, int noteid)
     {
         noteCategory = c;
+        note_ID = noteid;
+        database.UpdateNoteCategory(noteCategory, note_ID);
     }
 
     //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//

@@ -7,13 +7,10 @@ public class NoteUtil : MonoBehaviour
 {
 
     private MainController _myController;
-
     [SerializeField] private TMP_InputField _inputFieldText;
-
     [SerializeField] private TMP_InputField _inputFieldCategory;
-
-
     private Note _myNoteScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,13 +28,14 @@ public class NoteUtil : MonoBehaviour
     public void SetNoteText()
     {
         Debug.Log(_inputFieldText.text);
-        _myController.SetNoteText(_inputFieldText.text);
+        _myController.SetNoteText(_inputFieldText.text, _myNoteScript.note_id);
     }
 
     public void SetNoteCategory()
     {
         Debug.Log(_inputFieldCategory.text);
-        _myController.SetNoteCategory(_inputFieldCategory.text);
-
+        _myController.SetNoteCategory(_inputFieldCategory.text, _myNoteScript.note_id);
     }
+
+
 }

@@ -12,4 +12,16 @@ public class Note : MonoBehaviour
 
     [SerializeField] public TMP_InputField textField;
     [SerializeField] public TMP_InputField categoryField;
+
+    public void SetCategory(string c)
+    {
+        category = c;
+        categoryField.text = category;
+    }
+
+    public void SetText(string t)
+    {
+        text = t;
+        textField.text = text;
+    }
 }
